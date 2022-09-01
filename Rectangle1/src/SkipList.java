@@ -16,7 +16,7 @@ public class SkipList<K extends Comparable<K>, E> {
     public SkipList() {
 
         rnd = new TestableRandom();
-        level = 1;
+        level = 0;
         head = null;
 
     }
@@ -36,16 +36,16 @@ public class SkipList<K extends Comparable<K>, E> {
     /** Insert a KVPair into the skiplist */
     public boolean insert(KVPair<K, E> it) {
         int newLevel = randomLevel();
-        int size 0;
+        int size = 0;
         Comparable<K> k = it.key();
         if (level < newLevel)
             adjustHead(newLevel);
         @SuppressWarnings("unchecked") // Generic array allocation
         SkipNode<K,E>[] update = (SkipNode[])Array.newInstance(
-            SkipList.SkipNode.class, level + 1);
+           SkipNode.class, level + 1);
         SkipNode<K, E> x = head; // Start at header node
         for (int i = level; i >= 0; i--) { // Find insert position
-            while ((x.getForward()[i] != null) && (k.compareTo((x.forward[i])
+            while ((x.getForward()[i] != null) && (k.compareTo((x.getForward()[i])
                 .element().key()) > 0))
                 x = x.getForward()[i];
             update[i] = x; // Track end at level i
@@ -77,24 +77,32 @@ public class SkipList<K extends Comparable<K>, E> {
     }
 
 
-    public String dump() {
+    public void dump() {
 
         int size = 0;
-        int lvl = 1;
+        int depth = 1;
+        int startLvl = 0;
+        SkipNode<K,E> temp = head;
         
-        if (head == null) {
+        System.out.println("SkipList dump:");
+        
+        if (temp == null) {
 
-            return "SkipList dump:\n" + "Node has depth " + lvl + ", Value ("
-                + head + ")/n" + "SkipList size is: " + size;
+            System.out.println("Node has depth " + depth + ", Value ("
+                + temp.toString());
+        }
+        
+        while (temp != null) {
             
+            depth = temp.getForward().length;
+            temp = temp.getForward()[startLvl];
+            System.out.println("Node has a depth " + depth + ", Value (" + temp.toString() + ")");
+            size++;
         }
         
-        while (head != null) {
-
-            head = head.getForward();
-        }
+        System.out.println("SkipList size is: " + size);
         
-        return "";
+        
 
     }
 
