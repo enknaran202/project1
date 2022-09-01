@@ -1,6 +1,6 @@
- class SkipNode {
+ class SkipNode<K extends Comparable<K>, E> {
     private KVPair rec;
-    private SkipNode[] forward;
+    private SkipNode<K, E>[] forward;
 
     public Object element() {
       return rec.value();
@@ -12,9 +12,9 @@
 
     public SkipNode(Comparable key, Object elem, int level) {
       rec = new KVPair(key, elem);
-      forward = new SkipNode[level + 1];
+      setForward(new SkipNode[level + 1]);
       for (int i = 0; i < level; i++) {
-        forward[i] = null;
+        getForward()[i] = null;
       }
     }
 
@@ -25,5 +25,15 @@
 
     public String toString() {
       return rec.toString();
+    }
+
+    public SkipNode[] getForward()
+    {
+        return forward;
+    }
+
+    public void setForward(SkipNode[] forward)
+    {
+        this.forward = forward;
     }
   }
