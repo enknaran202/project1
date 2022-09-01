@@ -18,6 +18,11 @@
       }
     }
 
+    public SkipNode(KVPair<K, E> it, int newLevel)
+    {
+        // TODO Auto-generated constructor stub
+    }
+
     public String toString() {
       return rec.toString();
     }

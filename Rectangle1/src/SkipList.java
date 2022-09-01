@@ -2,70 +2,67 @@ import java.lang.reflect.Array;
 import java.util.Random;
 import student.TestableRandom;
 
-public class SkipList<K extends Comparable<K>, E>
-{
-// Make this a private data member of the SkipList object
+public class SkipList<K extends Comparable<K>, E> {
+
+    // Make this a private data member of the SkipList object
     private Random rnd; // Random number generator
 
-    private SkipNode head;
     private int level;
-    private int size;
-    static private Random ran = new Random(); // Hold the Random class object
+    private SkipNode<K, E> head;
 
-    public SkipList()
-    {
-        head = new SkipNode(null, null, 0);
-        level = -1;
-        size = 0;
+    // Put this in the SkipList constructor
+    // TestableRandom allows tests to be consistent instead of random. See
+    // setNextBooleans()
+    public SkipList() {
+
         rnd = new TestableRandom();
+        level = 1;
+        head = null;
+
+    }
+
+
+    /** Pick a level using a geometric distribution */
+    public int randomLevel() {
+        int lev;
+        for (lev = 0; rnd.nextBoolean(); lev++) {
+            // advance level
+        }
+
+        return lev;
     }
 
 
     /** Insert a KVPair into the skiplist */
-    public boolean insert(KVPair<K, E> it)
-    {
+    public boolean insert(KVPair<K, E> it) {
         int newLevel = randomLevel();
+        int size 0;
         Comparable<K> k = it.key();
         if (level < newLevel)
             adjustHead(newLevel);
         @SuppressWarnings("unchecked") // Generic array allocation
-        SkipNode[] update = (SkipNode[])Array.newInstance(
+        SkipNode<K,E>[] update = (SkipNode[])Array.newInstance(
             SkipList.SkipNode.class, level + 1);
-        SkipNode x = head; // Start at header node
-        for (int i = level; i >= 0; i--)
-        { // Find insert position
-            while ((x.forward[i] != null) && (k.compareTo((x.forward[i])
+        SkipNode<K, E> x = head; // Start at header node
+        for (int i = level; i >= 0; i--) { // Find insert position
+            while ((x.getForward()[i] != null) && (k.compareTo((x.forward[i])
                 .element().key()) > 0))
-                x = x.forward[i];
+                x = x.getForward()[i];
             update[i] = x; // Track end at level i
         }
         x = new SkipNode(it, newLevel);
-        for (int i = 0; i <= newLevel; i++)
-        { // Splice into list
-            x.forward[i] = update[i].forward[i]; // Who x points to
-            update[i].forward[i] = x; // Who y points to
+        for (int i = 0; i <= newLevel; i++) { // Splice into list
+            x.getForward()[i] = update[i].getForward()[i]; // Who x points to
+            update[i].getForward()[i] = x; // Who y points to
         }
         size++; // Increment dictionary size
         return true;
     }
 
-    // CLASS: Dump
-    // Param: None
-    // CLASS:
-    // CLASS: REMOVE
-
-
-    private void adjustHead(int newLevel)
-    {
-        // TODO Auto-generated method stub
-
-    }
-
 
     // Return the (first) matching matching element if one exists, null
     // otherwise
-    public KVPair<K, E> search(Comparable<K> key)
-    {
+    public KVPair<K, E> search(Comparable<K> key) {
         boolean found = false;
         SkipNode x = head; // Dummy header node
         for (int i = level; i >= 0; i--) // For each level...
@@ -80,14 +77,62 @@ public class SkipList<K extends Comparable<K>, E>
     }
 
 
-    int randomLevel()
-    {
-        int lev;
-        for (lev = 0; Math.abs(ran.nextInt()) % 2 == 0; lev++)
-        { // ran is random generator
-            ; // Do nothing
+    public String dump() {
+
+        int size = 0;
+        int lvl = 1;
+        
+        if (head == null) {
+
+            return "SkipList dump:\n" + "Node has depth " + lvl + ", Value ("
+                + head + ")/n" + "SkipList size is: " + size;
+            
         }
-        return lev;
+        
+        while (head != null) {
+
+            head = head.getForward();
+        }
+        
+        return "";
+
+    }
+
+
+    // Should we keep print statements for outputs or string return for testing
+    public String removeByName(SkipNode<K, E> in) {
+
+        return null;
+
+    }
+
+
+    public String removeByCoords(SkipNode<K, E> inp) {
+
+        return null;
+    }
+
+
+    public String regionSearch() {
+
+        return null;
+
+    }
+
+
+    public void intersections() {
+
+    }
+
+
+    private void adjustHead(int newLevel) {
+
+        SkipNode<K, E> temp = head;
+        head = new SkipNode<K, E>(null, null, newLevel);
+        for (int i = 0; i <= level; i++)
+            head.getForward()[i] = temp.getForward()[i];
+        level = newLevel;
+
     }
 
 }
