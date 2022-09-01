@@ -8,6 +8,7 @@ public class SkipList<K extends Comparable<K>, E> {
     private Random rnd; // Random number generator
 
     private int level;
+    private int size;
     private SkipNode<K, E> head;
 
     // Put this in the SkipList constructor
@@ -17,6 +18,7 @@ public class SkipList<K extends Comparable<K>, E> {
 
         rnd = new TestableRandom();
         level = 0;
+        size = 0;
         head = null;
 
     }
@@ -26,7 +28,9 @@ public class SkipList<K extends Comparable<K>, E> {
     public int randomLevel() {
         int lev;
         for (lev = 0; rnd.nextBoolean(); lev++) {
-            // advance level
+
+            // advance level no code in here
+
         }
 
         return lev;
@@ -36,26 +40,39 @@ public class SkipList<K extends Comparable<K>, E> {
     /** Insert a KVPair into the skiplist */
     public boolean insert(KVPair<K, E> it) {
         int newLevel = randomLevel();
-        int size = 0;
         Comparable<K> k = it.key();
-        if (level < newLevel)
+
+        if (level < newLevel) { // If current level is not as deep go to deeper
+                                // level for
+
             adjustHead(newLevel);
-        @SuppressWarnings("unchecked") // Generic array allocation
-        SkipNode<K,E>[] update = (SkipNode[])Array.newInstance(
-           SkipNode.class, level + 1);
-        SkipNode<K, E> x = head; // Start at header node
-        for (int i = level; i >= 0; i--) { // Find insert position
-            while ((x.getForward()[i] != null) && (k.compareTo((x.getForward()[i])
-                .element().key()) > 0))
-                x = x.getForward()[i];
-            update[i] = x; // Track end at level i
+
         }
+
+        SkipNode<K, E>[] update = (SkipNode[])Array.newInstance(SkipNode.class,
+            level + 1);
+        SkipNode<K, E> x = head; // Start at header node
+
+        for (int i = level; i >= 0; i--) { // Find insert position
+            while ((x.getForward()[i] != null) && (k.compareTo((x
+                .getForward()[i]).element().key()) > 0)) {
+
+                x = x.getForward()[i];
+
+            }
+
+            update[i] = x; // Track end at level i
+
+        }
+
         x = new SkipNode(it, newLevel);
         for (int i = 0; i <= newLevel; i++) { // Splice into list
             x.getForward()[i] = update[i].getForward()[i]; // Who x points to
             update[i].getForward()[i] = x; // Who y points to
         }
-        size++; // Increment dictionary size
+
+        size++;
+
         return true;
     }
 
@@ -82,27 +99,26 @@ public class SkipList<K extends Comparable<K>, E> {
         int size = 0;
         int depth = 1;
         int startLvl = 0;
-        SkipNode<K,E> temp = head;
-        
+        SkipNode<K, E> temp = head;
+
         System.out.println("SkipList dump:");
-        
+
         if (temp == null) {
 
-            System.out.println("Node has depth " + depth + ", Value ("
-                + temp.toString());
+            System.out.println("Node has depth " + depth + ", Value (" + temp
+                .toString());
         }
-        
+
         while (temp != null) {
-            
+
             depth = temp.getForward().length;
             temp = temp.getForward()[startLvl];
-            System.out.println("Node has a depth " + depth + ", Value (" + temp.toString() + ")");
+            System.out.println("Node has a depth " + depth + ", Value (" + temp
+                .toString() + ")");
             size++;
         }
-        
+
         System.out.println("SkipList size is: " + size);
-        
-        
 
     }
 
@@ -142,5 +158,5 @@ public class SkipList<K extends Comparable<K>, E> {
         level = newLevel;
 
     }
-    //TESTING FETCH/MERGE
+    // TESTING FETCH/MERGE
 }
