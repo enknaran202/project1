@@ -83,7 +83,7 @@ public class SkipList<K extends Comparable<K>, E> {
 
     // Return the (first) matching matching element if one exists, null
     // otherwise
-    public KVPair<K, E> search(Comparable<K> key) {
+    public KVPair<K, E> search(Comparable<K> key) { // how does it know to start at the top level???????
 
         SkipNode<K, E> x = head; // Dummy header node
 
@@ -142,22 +142,31 @@ public class SkipList<K extends Comparable<K>, E> {
 
 
     // Should we keep print statements for outputs or string return for testing
-    public String removeByName(Comparable<K> k) {
+    public String removeByName(K k) { // now need to change search method?
 
-        KVPair<K,E> rem = search(k);
-        if(rem == null) {
-            
+        KVPair<K, E> rem = search(k);
+        if (rem == null || rem.compareTo(k) != 0) { // do i need the second part
+                                                    // of if check?
+
             System.out.println("Rectangle not removed: (" + k.toString() + ")");
-            
-        }
-        if (in.key())
 
-            return null;
+        }
+
+        int level = 0;
+        adjustHead(level);
+        
+        @SuppressWarnings("unchecked")
+        SkipNode<K, E>[] update = (SkipNode[])Array.newInstance(SkipNode.class, level + 1);
+        SkipNode<K, E> x = head;
+        
+        
+
+        return null;
 
     }
 
 
-    public String removeByCoords(SkipNode<K, E> inp) {
+    public String removeByCoords(int x, int y, int w, int h) {
 
         return null;
     }
