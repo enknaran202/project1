@@ -76,7 +76,7 @@ public class SkipList<K extends Comparable<K>, E>
         String toReturn = "Rectangles found:";
         boolean found = false;
         // for loop can be improved. Need an exit system
-        for (int i = level; i > 0; i--)
+        for (int i = level; i >= 0; i--)
         { // For each level...
             while ((x.getForward()[i] != null) && (key.compareTo(x
                 .getForward()[i].key()) > 0))
@@ -131,15 +131,32 @@ public class SkipList<K extends Comparable<K>, E>
 
 
     // Should we keep print statements for outputs or string return for testing
-    public String removeByName(K k)
-    { // now need to change search method?
+    public String removeByName(K key)
+    {
+        // !QUESTION!
+        // How do we make yellow line disappear?
+        SkipNode<K, E>[] update = (SkipNode[])Array.newInstance(SkipNode.class,
+            level + 1);
+        SkipNode<K, E> x = head; // Dummy header node
 
-        KVPair<K, E> rem = search(k);
-        if (rem == null || rem.compareTo(k) != 0)
-        { // do i need the second part
-          // of if check?
-            return "Rectangle not removed: (" + k.toString() + ")";
+        for (int i = level; i >= 0; i--)
+        { // For each level...
+            while ((x.getForward()[i] != null) && (key.compareTo(x
+                .getForward()[i].key()) > 0))
+            { // go forward
+
+                x = x.getForward()[i]; // Go one last step
+
+            }
+            if (key.compareTo(x.getForward()[i].key()) == 0)
+            {
+                x.setForward(x.getForward()[i]);
+                return "success";
+            }
         }
+        return "failure";
+
+        // -------------------------------------
         int level = 0;
         adjustHead(level);
         @SuppressWarnings("unchecked")
@@ -177,5 +194,30 @@ public class SkipList<K extends Comparable<K>, E>
             head.getForward()[i] = temp.getForward()[i];
         level = newLevel;
     }
+
+
+    private KVPair<K, E> findFirst(Comparable<K> key)
+    {
+        SkipNode<K, E> x = head; // Dummy header node
+
+        for (int i = level; i >= 0; i--)
+        { // For each level...
+            while ((x.getForward()[i] != null) && (key.compareTo(x
+                .getForward()[i].key()) > 0))
+            { // go forward
+
+                x = x.getForward()[i]; // Go one last step
+
+            }
+            if (key.compareTo(x.getForward()[i].key()) == 0)
+            {
+                x = x.getForward()[0];
+                return x.pair();
+            }
+        }
+        return null;
+
+    }
+
     // TESTING FETCH/MERGE
 }
