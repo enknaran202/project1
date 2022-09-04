@@ -45,6 +45,8 @@ public class SkipList<K extends Comparable<K>, E>
             adjustHead(newLevel);
         }
         @SuppressWarnings("unchecked")
+        // !QUESTION!
+        // Is this correct? Why not new SkipNode[level + 1]?
         SkipNode<K, E>[] update = (SkipNode[])Array.newInstance(SkipNode.class,
             level + 1);
         SkipNode<K, E> x = head; // Start at header node
@@ -137,33 +139,45 @@ public class SkipList<K extends Comparable<K>, E>
         // How do we make yellow line disappear?
         SkipNode<K, E>[] update = (SkipNode[])Array.newInstance(SkipNode.class,
             level + 1);
-        SkipNode<K, E> x = head; // Dummy header node
 
+        SkipNode<K, E> x = head; // tracker pointer
         for (int i = level; i >= 0; i--)
         { // For each level...
+
             while ((x.getForward()[i] != null) && (key.compareTo(x
                 .getForward()[i].key()) > 0))
             { // go forward
-
                 x = x.getForward()[i]; // Go one last step
-
             }
-            if (key.compareTo(x.getForward()[i].key()) == 0)
+            if ((key.compareTo(x.getForward()[i].key()) == 0))
             {
-                x.setForward(x.getForward()[i]);
-                return "success";
+                // we can improve the code
+                // x.getForward()[i] = x.getForward()[i].getForward()[i]
+                // found = true;
+                update[i] = x;
             }
+            else
+            {
+                update[i] = x;
+            }
+
+        }
+        for (int j = level; j >= 0; j--)
+        {
+
+            // if the cur level == a level in the node that we want to remove
+            // then we do curr.setForward[curLevel]
+            if (update[j].getForward() != null)
+            {
+                update[j].getForward()[j] = update[j].getForward()[j];
+            }
+
         }
         return "failure";
-
-        // -------------------------------------
-        int level = 0;
-        adjustHead(level);
-        @SuppressWarnings("unchecked")
-        SkipNode<K, E>[] update = (SkipNode[])Array.newInstance(SkipNode.class,
-            level + 1);
-        SkipNode<K, E> x = head;
+        // return success
         return "Rectangle removed: (" + k.toString() + ")";
+
+        // Decriment size
     }
 
 
