@@ -70,7 +70,7 @@ public class SkipList<K extends Comparable<K>, E>
         return true;
     }
 
-
+    // Try outputting KVPair
     // Return all matching the key
     public String search(KVPair<K, E> key)
     { // how does it know to start at the top level???????
@@ -107,7 +107,6 @@ public class SkipList<K extends Comparable<K>, E>
 
     public void dump()
     {
-
         int size = 0;
         int depth = 1;
         int startLvl = 0;
