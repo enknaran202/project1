@@ -6,17 +6,26 @@ public class Rectangle
     private int width;
     private int height;
 
+    
     public Rectangle(int x, int y, int width, int height)
     {
-
         this.setX(x);
         this.setY(y);
         this.setWidth(width);
         this.setHeight(height);
-
     }
 
     
+    
+    // should this return string or boolean?
+    public boolean isIntersecting(Rectangle input)
+    {
+
+        return false;
+
+    }
+
+
     /**
      * @return the x
      */
@@ -96,7 +105,7 @@ public class Rectangle
     public String toString()
     {
 
-        return x + ", " + y + ", " + width + ", " + height + ")";
+        return x + ", " + y + ", " + width + ", " + height;
 
     }
 }
