@@ -152,6 +152,7 @@ public class SkipList<K extends Comparable<K>, E>
             {
                 // we can improve the code
                 // x.getForward()[i] = x.getForward()[i].getForward()[i]
+                // size--;
                 // found = true;
                 update[i] = x;
             }
