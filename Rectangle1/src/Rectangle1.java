@@ -61,6 +61,8 @@ public class Rectangle1
                         break;
 
                     case "remove":
+                        // EDIT
+                        // Remove functions now return BOOLEAN
                         token = scancmd.next(); // get name or first integer
                         if (Character.isDigit(token.charAt(0))) // if removing
                                                                 // by rectangle

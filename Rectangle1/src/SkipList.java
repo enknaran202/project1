@@ -70,6 +70,7 @@ public class SkipList<K extends Comparable<K>, E>
         return true;
     }
 
+
     // Try outputting KVPair
     // Return all matching the key
     public String search(KVPair<K, E> key)
@@ -130,15 +131,19 @@ public class SkipList<K extends Comparable<K>, E>
         System.out.println("SkipList size is: " + size);
     }
 
-
-    // Should we keep print statements for outputs or string return for testing
-    public String removeByName(K key)
+    // !QUESTION! 
+    // Should we return boolean or string? Whats better coding?
+    public boolean removeByName(K key)
     {
+        boolean found = false;  // tracks if the node has been found
+        int numOfNulls = 0;     // counts the number of nulls in the head array
         // !QUESTION!
         // How do we make yellow line disappear?
         SkipNode<K, E>[] update = (SkipNode[])Array.newInstance(SkipNode.class,
             level + 1);
 
+        // !QUESTION!
+        // How do we use the search method for this?
         SkipNode<K, E> x = head; // tracker pointer
         for (int i = level; i >= 0; i--)
         { // For each level...
@@ -150,10 +155,13 @@ public class SkipList<K extends Comparable<K>, E>
             }
             if ((key.compareTo(x.getForward()[i].key()) == 0))
             {
-                // we can improve the code
+                // !QUESTION!
+                // would this implementation work? Why do we use update for
+                // remove?
                 // x.getForward()[i] = x.getForward()[i].getForward()[i]
                 // found = true;
                 update[i] = x;
+                found = true;
             }
             else
             {
@@ -163,38 +171,89 @@ public class SkipList<K extends Comparable<K>, E>
         }
         for (int j = level; j >= 0; j--)
         {
-
             // if the cur level == a level in the node that we want to remove
             // then we do curr.setForward[curLevel]
-            if (update[j].getForward() != null)
+            if (update[j].getForward() != null && key.compareTo(x
+                .getForward()[j].key()) == 0)
             {
-                update[j].getForward()[j] = update[j].getForward()[j];
+                if (update[j].equals(head))
+                {
+                    numOfNulls++;
+                }
+                update[j].getForward()[j] = update[j].getForward()[j]
+                    .getForward()[j];
             }
 
         }
-        return "failure";
+        if (found) // If we found the node to remove
+        {
+            adjustHead(level - numOfNulls); // Change head array to remove all
+                                            // nulls
+            size--; // Decrement size of list
+        }
+        return found;
         // return success
-        return "Rectangle removed: (" + k.toString() + ")";
-
-        // Decriment size
+        // return "Rectangle removed: (" + k.toString() + ")";
     }
 
 
-    public String removeByRectangle(int x, int y, int w, int h)
+    public boolean removeByRectangle(int x, int y, int w, int h)
     {
-        return "Rectangle not removed: (" + k.toString() + ")";
-        return "Rectangle removed: (" + k.toString() + ")";
-    }
+        boolean found = false;
+        int numOfNulls = 0;
+        SkipNode<K, E>[] update = (SkipNode[])Array.newInstance(SkipNode.class,
+            level + 1);
+        SkipNode<K, E> curr = head; // tracker pointer
+        for (int i = level; i >= 0; i--)
+        { // For each level...
 
+            while ((curr.getForward()[i] != null) && Rectangle.equals(x, y, w,
+                h, (Rectangle)curr.getForward()[i].pair().theVal))
+            { // go forward
+                curr = curr.getForward()[i]; // Go one last step
+            }
+            if (Rectangle.equals(x, y, w, h, (Rectangle)curr.getForward()[i]
+                .pair().theVal))
+            {
+                // !QUESTION!
+                // would this implementation work? Why do we use update for
+                // remove?
+                // x.getForward()[i] = x.getForward()[i].getForward()[i]
+                // found = true;
+                update[i] = curr;
+                found = true;
+            }
+            else
+            {
+                update[i] = curr;
+            }
 
-    public String regionSearch()
-    {
-        return null;
-    }
+        }
+        for (int j = level; j >= 0; j--)
+        {
+            // if the cur level == a level in the node that we want to remove
+            // then we do curr.setForward[curLevel]
+            if (update[j].getForward() != null && Rectangle.equals(x, y, w, h,
+                (Rectangle)curr.getForward()[j].pair().theVal))
+            {
+                // keeps track of how many null values in head
+                if (update[j].equals(head))
+                {
+                    numOfNulls++;
+                }
+                update[j].getForward()[j] = update[j].getForward()[j]
+                    .getForward()[j];
+            }
 
+        }
 
-    public void intersections()
-    {
+        if (found) // If we found the node to remove
+        {
+            adjustHead(level - numOfNulls); // Change head array to remove all
+                                            // nulls
+            size--; // Decrement size of list
+        }
+        return found;
 
     }
 
@@ -209,6 +268,7 @@ public class SkipList<K extends Comparable<K>, E>
     }
 
 
+    // Do we need this one?
     private KVPair<K, E> findFirst(Comparable<K> key)
     {
         SkipNode<K, E> x = head; // Dummy header node
