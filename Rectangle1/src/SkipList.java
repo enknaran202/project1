@@ -159,6 +159,7 @@ public class SkipList<K extends Comparable<K>, E>
                 // would this implementation work? Why do we use update for
                 // remove?
                 // x.getForward()[i] = x.getForward()[i].getForward()[i]
+                // size--;
                 // found = true;
                 update[i] = x;
                 found = true;
