@@ -46,14 +46,12 @@ public class SkipList<K extends Comparable<K>, E>
             adjustHead(newLevel);
         }
         @SuppressWarnings("unchecked")
-        // !QUESTION!
-        // Is this correct? Why not new SkipNode[level + 1]?
         SkipNode<K, E>[] update = (SkipNode[])Array.newInstance(SkipNode.class,
             level + 1);
         SkipNode<K, E> x = head; // Start at header node
 
         for (int i = level; i >= 0; i--)
-        {   // Find insert position
+        { // Find insert position
             while ((x.getForward()[i] != null) && (k.compareTo((x
                 .getForward()[i]).key()) > 0))
             {
@@ -63,7 +61,7 @@ public class SkipList<K extends Comparable<K>, E>
         }
         x = new SkipNode<K, E>(it.key(), it.value(), newLevel);
         for (int i = 0; i <= newLevel; i++)
-        {   // Splice into list
+        { // Splice into list
             x.getForward()[i] = update[i].getForward()[i]; // Who x points to
             update[i].getForward()[i] = x; // Who y points to
         }
@@ -71,13 +69,9 @@ public class SkipList<K extends Comparable<K>, E>
         return true;
     }
 
-    // !QUESTION! 
-    // Should output be kvpair instead? 
-    // Will we be struck down for this?
-    // Try outputting KVPair
-    // Return all matching the key
+    
     public String search(KVPair<K, E> key)
-    { 
+    {
         SkipNode<K, E> x = head; // Dummy header node
         String toReturn = "Rectangles found:";
         boolean found = false;
@@ -96,15 +90,13 @@ public class SkipList<K extends Comparable<K>, E>
                 x = x.getForward()[0];
                 toReturn = toReturn + "\n" + "(" + x.toString() + ")";
             }
-
         }
         if (found)
         {
             return toReturn;
         }
-        // !QUESTION!
-        // What does key print out?
-        return "Rectangle not found: (" + key + ")";
+        
+        return "Rectangle not found: (" + key.key() + ")";
     }
 
 
@@ -134,8 +126,9 @@ public class SkipList<K extends Comparable<K>, E>
     }
 
 
-    // !QUESTION!
-    // I want to return the KVPair that was removed. Where should I save it?
+    // !NOTE!
+    // Ensure it stops at the first and saves that
+    // Double Check
     public KVPair<K, E> removeByName(K key)
     {
         KVPair<K, E> removed = null; // tracks if the node has been found
@@ -155,12 +148,6 @@ public class SkipList<K extends Comparable<K>, E>
             }
             if ((key.compareTo(x.getForward()[i].key()) == 0))
             {
-                // !QUESTION!
-                // would this implementation work? Why do we use update for
-                // remove?
-                // x.getForward()[i] = x.getForward()[i].getForward()[i]
-                // size--;
-                // found = true;
                 update[i] = x;
                 found = true;
             }
@@ -194,17 +181,13 @@ public class SkipList<K extends Comparable<K>, E>
         return removed;
     }
 
-    // !QUESTION!
-    // Why do we need update for both removes?
-    // Can we use this code instead?
-    // x.getForward()[i] = x.getForward()[i].getForward()[i]
-    // found = true;
+
     public KVPair<K, E> removeByRectangle(int x, int y, int w, int h)
     {
         KVPair<K, E> removed = null;
         boolean found = false;
         int numOfNulls = 0;
-        
+
         @SuppressWarnings("unchecked")
         SkipNode<K, E>[] update = (SkipNode[])Array.newInstance(SkipNode.class,
             level + 1);
@@ -212,6 +195,7 @@ public class SkipList<K extends Comparable<K>, E>
 
         for (int i = level; i >= 0; i--)
         { // For each level...
+
             while ((curr.getForward()[i] != null) && Rectangle.equals(x, y, w,
                 h, (Rectangle)curr.getForward()[i].pair().theVal))
             { // go forward
@@ -220,7 +204,6 @@ public class SkipList<K extends Comparable<K>, E>
             if (Rectangle.equals(x, y, w, h, (Rectangle)curr.getForward()[i]
                 .pair().theVal))
             {
-               
                 update[i] = curr;
                 found = true;
             }
@@ -245,8 +228,6 @@ public class SkipList<K extends Comparable<K>, E>
                     .getForward()[j];
             }
         }
-        // why can't I do
-        // if(removed != null) 
 
         if (found) // If we found the node to remove
         {
@@ -268,9 +249,9 @@ public class SkipList<K extends Comparable<K>, E>
         level = newLevel;
     }
 
-    // !QUESTION!
-    // Do we need this one?
-    // Can we delete?
+
+    // !NOTE!
+    // Might be helpful for removes
     private KVPair<K, E> findFirst(Comparable<K> key)
     {
         SkipNode<K, E> x = head; // Dummy header node
@@ -291,21 +272,22 @@ public class SkipList<K extends Comparable<K>, E>
         return null;
     }
 
-    // !QUESTION!
-    // How do I implement this?
-    // Are the generics correctly labeled?
+    //!NOTE!
+    // CHeck for errors with hiding
+    @SuppressWarnings("hiding")
     class SkipListIterator<K extends Comparable<K>, E> implements Iterator<KVPair<K, E>>
     {
         private SkipNode<K, E> cur;
-        
+
         public SkipListIterator(SkipList<K, E> list)
         {
             cur = list.head;
         }
-        
+
+
         public KVPair<K, E> next()
         {
-            if (cur.pair() !=  null) 
+            if (cur.pair() != null)
             {
                 return null;
             }
@@ -314,6 +296,7 @@ public class SkipList<K extends Comparable<K>, E>
             return toReturn;
         }
 
+
         @Override
         public boolean hasNext()
         {
@@ -321,6 +304,7 @@ public class SkipList<K extends Comparable<K>, E>
             return cur.getForward()[0] != null;
         }
     }
+
     public Iterator<KVPair<K, E>> iterator()
     {
         return new SkipListIterator<K, E>(this);

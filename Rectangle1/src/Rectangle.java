@@ -14,6 +14,8 @@ public class Rectangle
         this.setHeight(height);
     }
     
+    // !Note!
+    // Maybe change
     public static boolean equals(int x, int y, int w, int h, Rectangle rect)
     {
         return (rect.x == x && rect.y == y && rect.width == w && rect.height == h);
@@ -26,15 +28,40 @@ public class Rectangle
     // Report all rectangles in database that intersect with the given region
     // Pre: Width and Height MUST both be greater than zero
     // Must OVERLAP not just touch
-    public String regionSearch(SkipList<?, ?> list, int x, int y,  int w, int h)
-    {
-        //list.
-        return "";
-    }
+//    public String regionSearch(SkipList<?, ?> list, int x, int y,  int w, int h)
+//    {
+//        //list.
+//        return "";
+//    }
+    // returns true if both rectangles overlap somewhere
+    // Figure out every case for Deep
     public boolean isIntersecting(Rectangle input)
     {
+        if(this.x >= input.x && this.x < input.x + input.width)
+        {
+            if (this.y >= input.y && this.y < input.y + input.height)
+            {
+                return true;
+            }
+            if (input.y >= this.y && input.y < this.y + this.height)
+            {
+                return true;
+            }
+        }
+        if ((input.x >= this.x && input.x < this.x + this.width) ) 
+        {
+            if (input.y >= this.y && input.y < this.y + this.height)
+            {
+                return true;
+            }
+            if (this.y >= input.y && this.y < input.y + input.height)
+            {
+                return true;
+            }
+        }
         return false;
     }
+    
 
     /**
      * @return the x
