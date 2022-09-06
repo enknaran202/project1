@@ -41,7 +41,7 @@ public class KVPair<K extends Comparable<K>, E>
 
     public String toString()
     {
-        return "(" + theKey.toString() + ", " + theVal.toString();
+        return "(" + theKey.toString() + ", " + theVal.toString() + ")";
     }
 }
 /* *** ODSAendTag: KVPair *** */
