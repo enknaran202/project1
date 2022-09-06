@@ -1,8 +1,10 @@
 import java.lang.reflect.Array;
+import java.util.Iterator;
 import java.util.Random;
 import student.TestableRandom;
 
 public class SkipList<K extends Comparable<K>, E>
+    implements Iterable<KVPair<K, E>>
 {
     // Make this a private data member of the SkipList object
     private Random rnd; // Random number generator
@@ -19,6 +21,12 @@ public class SkipList<K extends Comparable<K>, E>
         level = 0;
         size = 0;
         head = null;
+    }
+
+    //TEMP. DOUBLE CHECK
+    public SkipNode<K, E> forward()
+    {
+        return this.forward();
     }
 
 
@@ -39,6 +47,7 @@ public class SkipList<K extends Comparable<K>, E>
     {
         int newLevel = randomLevel();
         Comparable<K> k = it.key();
+
         if (level < newLevel)
         { // If current level is not as deep go to deeper change head to be
           // deeper
@@ -102,7 +111,6 @@ public class SkipList<K extends Comparable<K>, E>
         // TEST
         // What does key print out?
         return "Rectangle not found: (" + key + ")";
-
     }
 
 
@@ -131,23 +139,23 @@ public class SkipList<K extends Comparable<K>, E>
         System.out.println("SkipList size is: " + size);
     }
 
-    // !QUESTION! 
+
+    // !QUESTION!
     // Should we return boolean or string? Whats better coding?
     public boolean removeByName(K key)
     {
-        boolean found = false;  // tracks if the node has been found
-        int numOfNulls = 0;     // counts the number of nulls in the head array
+        boolean found = false; // tracks if the node has been found
+        int numOfNulls = 0; // counts the number of nulls in the head array
+
         // !QUESTION!
         // How do we make yellow line disappear?
         SkipNode<K, E>[] update = (SkipNode[])Array.newInstance(SkipNode.class,
             level + 1);
-
         // !QUESTION!
         // How do we use the search method for this?
         SkipNode<K, E> x = head; // tracker pointer
         for (int i = level; i >= 0; i--)
         { // For each level...
-
             while ((x.getForward()[i] != null) && (key.compareTo(x
                 .getForward()[i].key()) > 0))
             { // go forward
@@ -168,7 +176,6 @@ public class SkipList<K extends Comparable<K>, E>
             {
                 update[i] = x;
             }
-
         }
         for (int j = level; j >= 0; j--)
         {
@@ -184,7 +191,6 @@ public class SkipList<K extends Comparable<K>, E>
                 update[j].getForward()[j] = update[j].getForward()[j]
                     .getForward()[j];
             }
-
         }
         if (found) // If we found the node to remove
         {
@@ -205,9 +211,9 @@ public class SkipList<K extends Comparable<K>, E>
         SkipNode<K, E>[] update = (SkipNode[])Array.newInstance(SkipNode.class,
             level + 1);
         SkipNode<K, E> curr = head; // tracker pointer
+
         for (int i = level; i >= 0; i--)
         { // For each level...
-
             while ((curr.getForward()[i] != null) && Rectangle.equals(x, y, w,
                 h, (Rectangle)curr.getForward()[i].pair().theVal))
             { // go forward
@@ -228,7 +234,6 @@ public class SkipList<K extends Comparable<K>, E>
             {
                 update[i] = curr;
             }
-
         }
         for (int j = level; j >= 0; j--)
         {
@@ -245,9 +250,7 @@ public class SkipList<K extends Comparable<K>, E>
                 update[j].getForward()[j] = update[j].getForward()[j]
                     .getForward()[j];
             }
-
         }
-
         if (found) // If we found the node to remove
         {
             adjustHead(level - numOfNulls); // Change head array to remove all
@@ -255,13 +258,13 @@ public class SkipList<K extends Comparable<K>, E>
             size--; // Decrement size of list
         }
         return found;
-
     }
 
 
     private void adjustHead(int newLevel)
     {
         SkipNode<K, E> temp = head;
+
         head = new SkipNode<K, E>(null, null, newLevel);
         for (int i = 0; i <= level; i++)
             head.getForward()[i] = temp.getForward()[i];
@@ -270,6 +273,7 @@ public class SkipList<K extends Comparable<K>, E>
 
 
     // Do we need this one?
+    // Can we delete?
     private KVPair<K, E> findFirst(Comparable<K> key)
     {
         SkipNode<K, E> x = head; // Dummy header node
@@ -279,9 +283,7 @@ public class SkipList<K extends Comparable<K>, E>
             while ((x.getForward()[i] != null) && (key.compareTo(x
                 .getForward()[i].key()) > 0))
             { // go forward
-
                 x = x.getForward()[i]; // Go one last step
-
             }
             if (key.compareTo(x.getForward()[i].key()) == 0)
             {
@@ -290,8 +292,41 @@ public class SkipList<K extends Comparable<K>, E>
             }
         }
         return null;
-
     }
 
-    // TESTING FETCH/MERGE
+    // !QUESTION!
+    // How do I implement this?
+    // Are the generics correctly labeled?
+    class SkipListIterator<K extends Comparable<K>, E> implements Iterator<KVPair<K, E>>
+    {
+        private SkipNode<K, E> cur;
+        
+        public SkipListIterator(SkipList<K, E> list)
+        {
+            cur = list.head;
+        }
+        
+        public KVPair<K, E> next()
+        {
+            if (cur.pair() !=  null) 
+            {
+                return null;
+            }
+            KVPair<K, E> toReturn = cur.pair();
+            cur = cur.getForward()[0];
+            return toReturn;
+        }
+
+        @Override
+        public boolean hasNext()
+        {
+            // TODO Auto-generated method stub
+            return cur.getForward()[0] != null;
+        }
+    }
+    public Iterator<KVPair<K, E>> iterator()
+    {
+        return new SkipListIterator<K, E>(this);
+    }
+
 }
