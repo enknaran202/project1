@@ -6,12 +6,10 @@ import student.TestableRandom;
 public class SkipList<K extends Comparable<K>, E>
     implements Iterable<KVPair<K, E>>
 {
-    // Make this a private data member of the SkipList object
     private Random rnd; // Random number generator
     private int level;
     private int size;
     private SkipNode<K, E> head;
-    // Put this in the SkipList constructor
     // TestableRandom allows tests to be consistent instead of random. See
     // setNextBooleans()
 
@@ -21,12 +19,6 @@ public class SkipList<K extends Comparable<K>, E>
         level = 0;
         size = 0;
         head = null;
-    }
-
-    //TEMP. DOUBLE CHECK
-    public SkipNode<K, E> forward()
-    {
-        return this.forward();
     }
 
 
@@ -61,7 +53,7 @@ public class SkipList<K extends Comparable<K>, E>
         SkipNode<K, E> x = head; // Start at header node
 
         for (int i = level; i >= 0; i--)
-        { // Find insert position
+        {   // Find insert position
             while ((x.getForward()[i] != null) && (k.compareTo((x
                 .getForward()[i]).key()) > 0))
             {
@@ -71,7 +63,7 @@ public class SkipList<K extends Comparable<K>, E>
         }
         x = new SkipNode<K, E>(it.key(), it.value(), newLevel);
         for (int i = 0; i <= newLevel; i++)
-        { // Splice into list
+        {   // Splice into list
             x.getForward()[i] = update[i].getForward()[i]; // Who x points to
             update[i].getForward()[i] = x; // Who y points to
         }
@@ -79,11 +71,13 @@ public class SkipList<K extends Comparable<K>, E>
         return true;
     }
 
-
+    // !QUESTION! 
+    // Should output be kvpair instead? 
+    // Will we be struck down for this?
     // Try outputting KVPair
     // Return all matching the key
     public String search(KVPair<K, E> key)
-    { // how does it know to start at the top level???????
+    { 
         SkipNode<K, E> x = head; // Dummy header node
         String toReturn = "Rectangles found:";
         boolean found = false;
@@ -108,7 +102,7 @@ public class SkipList<K extends Comparable<K>, E>
         {
             return toReturn;
         }
-        // TEST
+        // !QUESTION!
         // What does key print out?
         return "Rectangle not found: (" + key + ")";
     }
@@ -141,18 +135,16 @@ public class SkipList<K extends Comparable<K>, E>
 
 
     // !QUESTION!
-    // Should we return boolean or string? Whats better coding?
-    public boolean removeByName(K key)
+    // I want to return the KVPair that was removed. Where should I save it?
+    public KVPair<K, E> removeByName(K key)
     {
-        boolean found = false; // tracks if the node has been found
+        KVPair<K, E> removed = null; // tracks if the node has been found
+        boolean found = false;
         int numOfNulls = 0; // counts the number of nulls in the head array
 
-        // !QUESTION!
-        // How do we make yellow line disappear?
+        @SuppressWarnings("unchecked")
         SkipNode<K, E>[] update = (SkipNode[])Array.newInstance(SkipNode.class,
             level + 1);
-        // !QUESTION!
-        // How do we use the search method for this?
         SkipNode<K, E> x = head; // tracker pointer
         for (int i = level; i >= 0; i--)
         { // For each level...
@@ -192,22 +184,28 @@ public class SkipList<K extends Comparable<K>, E>
                     .getForward()[j];
             }
         }
+        //
         if (found) // If we found the node to remove
         {
             adjustHead(level - numOfNulls); // Change head array to remove all
                                             // nulls
             size--; // Decrement size of list
         }
-        return found;
-        // return success
-        // return "Rectangle removed: (" + k.toString() + ")";
+        return removed;
     }
 
-
-    public boolean removeByRectangle(int x, int y, int w, int h)
+    // !QUESTION!
+    // Why do we need update for both removes?
+    // Can we use this code instead?
+    // x.getForward()[i] = x.getForward()[i].getForward()[i]
+    // found = true;
+    public KVPair<K, E> removeByRectangle(int x, int y, int w, int h)
     {
+        KVPair<K, E> removed = null;
         boolean found = false;
         int numOfNulls = 0;
+        
+        @SuppressWarnings("unchecked")
         SkipNode<K, E>[] update = (SkipNode[])Array.newInstance(SkipNode.class,
             level + 1);
         SkipNode<K, E> curr = head; // tracker pointer
@@ -222,11 +220,7 @@ public class SkipList<K extends Comparable<K>, E>
             if (Rectangle.equals(x, y, w, h, (Rectangle)curr.getForward()[i]
                 .pair().theVal))
             {
-                // !QUESTION!
-                // would this implementation work? Why do we use update for
-                // remove?
-                // x.getForward()[i] = x.getForward()[i].getForward()[i]
-                // found = true;
+               
                 update[i] = curr;
                 found = true;
             }
@@ -251,13 +245,16 @@ public class SkipList<K extends Comparable<K>, E>
                     .getForward()[j];
             }
         }
+        // why can't I do
+        // if(removed != null) 
+
         if (found) // If we found the node to remove
         {
             adjustHead(level - numOfNulls); // Change head array to remove all
                                             // nulls
             size--; // Decrement size of list
         }
-        return found;
+        return removed;
     }
 
 
@@ -271,7 +268,7 @@ public class SkipList<K extends Comparable<K>, E>
         level = newLevel;
     }
 
-
+    // !QUESTION!
     // Do we need this one?
     // Can we delete?
     private KVPair<K, E> findFirst(Comparable<K> key)
