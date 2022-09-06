@@ -7,6 +7,8 @@ public class Rectangle1
     {
 
     }
+
+
     // Open DSA
     public void parse(String filename)
     {
@@ -61,6 +63,8 @@ public class Rectangle1
                         break;
 
                     case "remove":
+                        // EDIT
+                        // Remove functions now return BOOLEAN
                         token = scancmd.next(); // get name or first integer
                         if (Character.isDigit(token.charAt(0))) // if removing
                                                                 // by rectangle
@@ -74,7 +78,8 @@ public class Rectangle1
                             height = scancmd.nextInt();
                             // !QUESTION!
                             // How to represent remove failure?
-                            System.out.println(list.removeByRectangle(x, y, width, height));
+                            System.out.println(list.removeByRectangle(x, y,
+                                width, height));
                             break;
                         }
                         name = token; // else remove by name
@@ -92,6 +97,14 @@ public class Rectangle1
                         width = scancmd.nextInt();
 
                         height = scancmd.nextInt();
+
+                        if (width <= 0 || height <= 0)
+                        {
+                            System.out.println("Rectangle rejected: (" + x
+                                + ", " + y + ", " + width + ", " + height
+                                + ")");
+                            break;
+                        }
 
                         // call regionsearch
                         break;
