@@ -13,31 +13,36 @@ public class Rectangle
         this.setWidth(width);
         this.setHeight(height);
     }
-    
+
+
     // !Note!
-    // Maybe change
-    public static boolean equals(int x, int y, int w, int h, Rectangle rect)
+    // CHANGE TO NON STATIC
+    public boolean equals(Rectangle rect)
     {
-        return (rect.x == x && rect.y == y && rect.width == w && rect.height == h);
+        return (rect.x == this.x && rect.y == this.y && rect.width == this.width
+            && rect.height == this.height);
     }
+
 
     // !QUESTION!
     // How do I pass in a SkipList? Is <?,?> ok?
     // should this return string or can it be a SkipList?
-    // 
+    //
     // Report all rectangles in database that intersect with the given region
     // Pre: Width and Height MUST both be greater than zero
     // Must OVERLAP not just touch
-//    public String regionSearch(SkipList<?, ?> list, int x, int y,  int w, int h)
-//    {
-//        //list.
-//        return "";
-//    }
+    public String regionSearch(SkipList<?, ?> list, int x, int y, int w, int h)
+    {
+        // list.
+        return "";
+    }
+
+
     // returns true if both rectangles overlap somewhere
     // Figure out every case for Deep
     public boolean isIntersecting(Rectangle input)
     {
-        if(this.x >= input.x && this.x < input.x + input.width)
+        if (this.x >= input.x && this.x < input.x + input.width)
         {
             if (this.y >= input.y && this.y < input.y + input.height)
             {
@@ -48,7 +53,7 @@ public class Rectangle
                 return true;
             }
         }
-        if ((input.x >= this.x && input.x < this.x + this.width) ) 
+        if ((input.x >= this.x && input.x < this.x + this.width))
         {
             if (input.y >= this.y && input.y < this.y + this.height)
             {
@@ -61,7 +66,7 @@ public class Rectangle
         }
         return false;
     }
-    
+
 
     /**
      * @return the x

@@ -17,6 +17,7 @@ public class Rectangle1
         // should be parameterized"
         // What do I do with this?
         SkipList list = new SkipList();
+        Rectangle rect = null;
         try
         {
             Scanner sc = new Scanner(new File(filename));
@@ -53,12 +54,12 @@ public class Rectangle1
                                 + height + ")");
                         }
 
-                        Rectangle newRect = new Rectangle(x, y, width, height);
+                        rect = new Rectangle(x, y, width, height);
                         // Create new rectangle, put it in KVPair, and insert in
                         // a list
                         // !QUESTION!
                         // How fix yellow line?
-                        KVPair newPair = new KVPair(name, newRect);
+                        KVPair newPair = new KVPair(name, rect);
                         list.insert(newPair);
                         break;
 
@@ -78,15 +79,19 @@ public class Rectangle1
                             height = scancmd.nextInt();
                             // !QUESTION!
                             // How to represent remove failure?
-                            System.out.println(list.removeByRectangle(x, y,
-                                width, height));
+                            
+                            rect.setX(x);
+                            rect.setY(y);
+                            rect.setWidth(width);
+                            rect.setHeight(height);
+                            System.out.println(list.removeByValue(rect));
                             break;
                         }
                         name = token; // else remove by name
                         // !QUESTION!
                         // How fix yellow line?
                         // How to represent failure?
-                        System.out.println(list.removeByName(name));
+                        System.out.println(list.removeByKey(name));
                         break;
 
                     case "regionsearch":
@@ -105,7 +110,10 @@ public class Rectangle1
                                 + ")");
                             break;
                         }
-
+                        rect.setX(x);
+                        rect.setY(y);
+                        rect.setWidth(width);
+                        rect.setHeight(height);
                         // call regionsearch
                         break;
 
@@ -114,25 +122,12 @@ public class Rectangle1
                         break;
 
                     case "dump":
-                        // call dump
+                        list.dump();
                         break;
 
                     case "search":
-                        token = scancmd.next();
-                        if (Character.isDigit(token.charAt(0))) // if removing
-                                                                // by rectangle
-                        { // read each dimensions
-                            x = Integer.parseInt(token);
+                        name = scancmd.next();
 
-                            y = scancmd.nextInt();
-
-                            width = scancmd.nextInt();
-
-                            height = scancmd.nextInt();
-                            // call search by rectangle
-                            break;
-                        }
-                        name = token;
                         // call search by name
                         break;
 

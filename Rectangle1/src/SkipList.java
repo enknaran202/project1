@@ -1,10 +1,8 @@
 import java.lang.reflect.Array;
-import java.util.Iterator;
 import java.util.Random;
 import student.TestableRandom;
 
 public class SkipList<K extends Comparable<K>, E>
-    implements Iterable<KVPair<K, E>>
 {
     private Random rnd; // Random number generator
     private int level;
@@ -69,7 +67,7 @@ public class SkipList<K extends Comparable<K>, E>
         return true;
     }
 
-    
+
     public String search(KVPair<K, E> key)
     {
         SkipNode<K, E> x = head; // Dummy header node
@@ -95,7 +93,7 @@ public class SkipList<K extends Comparable<K>, E>
         {
             return toReturn;
         }
-        
+
         return "Rectangle not found: (" + key.key() + ")";
     }
 
@@ -111,8 +109,7 @@ public class SkipList<K extends Comparable<K>, E>
 
         if (temp == null)
         {
-            System.out.println("Node has depth " + depth + ", Value (" + temp
-                .toString());
+            System.out.println("Node has depth " + depth + ", Value (null)");
         }
         while (temp != null)
         {
@@ -129,60 +126,45 @@ public class SkipList<K extends Comparable<K>, E>
     // !NOTE!
     // Ensure it stops at the first and saves that
     // Double Check
-    public KVPair<K, E> removeByName(K key)
+    public KVPair<K, E> removeByKey(K key) 
     {
         KVPair<K, E> removed = null; // tracks if the node has been found
         boolean found = false;
-        int numOfNulls = 0; // counts the number of nulls in the head array
+        int headLevelsToRemove = 0;
 
-        @SuppressWarnings("unchecked")
-        SkipNode<K, E>[] update = (SkipNode[])Array.newInstance(SkipNode.class,
-            level + 1);
         SkipNode<K, E> x = head; // tracker pointer
-        for (int i = level; i >= 0; i--)
+        for (int i = level; i >= 0; i--) 
         { // For each level...
             while ((x.getForward()[i] != null) && (key.compareTo(x
-                .getForward()[i].key()) > 0))
-            { // go forward
+                .getForward()[i].key()) > 0)) { // go forward 
                 x = x.getForward()[i]; // Go one last step
             }
-            if ((key.compareTo(x.getForward()[i].key()) == 0))
-            {
-                update[i] = x;
+            if (((x.getForward()[i] != null) && key.compareTo(x.getForward()[i]
+                .key()) == 0))
+            { // checks to see if we have found it 
                 found = true;
-            }
-            else
-            {
-                update[i] = x;
-            }
-        }
-        for (int j = level; j >= 0; j--)
-        {
-            // if the cur level == a level in the node that we want to remove
-            // then we do curr.setForward[curLevel]
-            if (update[j].getForward() != null && key.compareTo(x
-                .getForward()[j].key()) == 0)
-            {
-                if (update[j].equals(head))
+                x.getForward()[i] = x.getForward()[i].getForward()[i];
+                if (x == head && x.getForward()[i] == null) // check to see if this covers all the problems
                 {
-                    numOfNulls++;
+                    headLevelsToRemove--;
                 }
-                update[j].getForward()[j] = update[j].getForward()[j]
-                    .getForward()[j];
             }
         }
-        //
-        if (found) // If we found the node to remove
-        {
-            adjustHead(level - numOfNulls); // Change head array to remove all
-                                            // nulls
-            size--; // Decrement size of list
+        if (found) 
+        {   
+            if (headLevelsToRemove > 0) 
+            {
+                adjustHead(headLevelsToRemove);
+            }
+            size--;
         }
         return removed;
     }
 
-
-    public KVPair<K, E> removeByRectangle(int x, int y, int w, int h)
+    // !NOTE!
+    // Needs to be in main
+    // remove by value
+    public KVPair<K, E> removeByValue(E value)
     {
         KVPair<K, E> removed = null;
         boolean found = false;
@@ -196,13 +178,12 @@ public class SkipList<K extends Comparable<K>, E>
         for (int i = level; i >= 0; i--)
         { // For each level...
 
-            while ((curr.getForward()[i] != null) && Rectangle.equals(x, y, w,
-                h, (Rectangle)curr.getForward()[i].pair().theVal))
+            while ((curr.getForward()[i] != null) && !value.equals(curr
+                .getForward()[i].pair().theVal))
             { // go forward
                 curr = curr.getForward()[i]; // Go one last step
             }
-            if (Rectangle.equals(x, y, w, h, (Rectangle)curr.getForward()[i]
-                .pair().theVal))
+            if (value.equals(curr.getForward()[i].pair().theVal))
             {
                 update[i] = curr;
                 found = true;
@@ -216,8 +197,8 @@ public class SkipList<K extends Comparable<K>, E>
         {
             // if the cur level == a level in the node that we want to remove
             // then we do curr.setForward[curLevel]
-            if (update[j].getForward() != null && Rectangle.equals(x, y, w, h,
-                (Rectangle)curr.getForward()[j].pair().theVal))
+            if (update[j].getForward() != null && value.equals(curr
+                .getForward()[j].pair().theVal))
             {
                 // keeps track of how many null values in head
                 if (update[j].equals(head))
@@ -248,66 +229,4 @@ public class SkipList<K extends Comparable<K>, E>
             head.getForward()[i] = temp.getForward()[i];
         level = newLevel;
     }
-
-
-    // !NOTE!
-    // Might be helpful for removes
-    private KVPair<K, E> findFirst(Comparable<K> key)
-    {
-        SkipNode<K, E> x = head; // Dummy header node
-
-        for (int i = level; i >= 0; i--)
-        { // For each level...
-            while ((x.getForward()[i] != null) && (key.compareTo(x
-                .getForward()[i].key()) > 0))
-            { // go forward
-                x = x.getForward()[i]; // Go one last step
-            }
-            if (key.compareTo(x.getForward()[i].key()) == 0)
-            {
-                x = x.getForward()[0];
-                return x.pair();
-            }
-        }
-        return null;
-    }
-
-    //!NOTE!
-    // CHeck for errors with hiding
-    @SuppressWarnings("hiding")
-    class SkipListIterator<K extends Comparable<K>, E> implements Iterator<KVPair<K, E>>
-    {
-        private SkipNode<K, E> cur;
-
-        public SkipListIterator(SkipList<K, E> list)
-        {
-            cur = list.head;
-        }
-
-
-        public KVPair<K, E> next()
-        {
-            if (cur.pair() != null)
-            {
-                return null;
-            }
-            KVPair<K, E> toReturn = cur.pair();
-            cur = cur.getForward()[0];
-            return toReturn;
-        }
-
-
-        @Override
-        public boolean hasNext()
-        {
-            // TODO Auto-generated method stub
-            return cur.getForward()[0] != null;
-        }
-    }
-
-    public Iterator<KVPair<K, E>> iterator()
-    {
-        return new SkipListIterator<K, E>(this);
-    }
-
 }

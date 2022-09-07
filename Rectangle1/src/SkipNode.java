@@ -54,24 +54,18 @@ public class SkipNode<K extends Comparable<K>, E>
 
     public String toString()
     {
-
         return rec.toString();
-
     }
 
 
     public SkipNode<K, E>[] getForward()
     {
-
         return forward;
-
     }
 
 
     public void setForward(SkipNode<K, E>[] forward)
     {
-
         this.forward = forward;
-
     }
 }
