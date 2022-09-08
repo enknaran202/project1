@@ -67,6 +67,7 @@ public class SkipList<K extends Comparable<K>, E>
         return true;
     }
 
+
     // Can I make it return an array
     public String search(KVPair<K, E> key)
     {
@@ -226,6 +227,34 @@ public class SkipList<K extends Comparable<K>, E>
             size--; // Decrement size of list
         }
         return removed;
+    }
+
+
+    public String regionSearch(Rectangle rect)
+    {
+        SkipNode<K, E> cur = this.head; // tracker pointer
+        String saved = "";
+
+        while (cur.getForward()[0] != null)
+        {
+            if (cur.getForward()[0].pair().theVal.equals(rect))
+            {
+                saved = saved + cur.getForward()[0].pair().theVal.toString()
+                    + "\n";
+            }
+        }
+
+        System.out.println("Rectangles intersecting region:" + rect.toString()
+            + ": \n");
+        return saved;
+    }
+
+
+    public String intersections(SkipList<?, ?> list)
+    {
+
+        return null;
+
     }
 
 

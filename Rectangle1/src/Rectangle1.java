@@ -116,7 +116,7 @@ public class Rectangle1
                                 .toString());
                             break;
                         }
-                        // call regionsearch
+                        list.regionSearch(rect);
                         break;
 
                     case "intersections":
