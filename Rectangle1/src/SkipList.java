@@ -67,7 +67,7 @@ public class SkipList<K extends Comparable<K>, E>
         return true;
     }
 
-
+    // Can I make it return an array
     public String search(KVPair<K, E> key)
     {
         SkipNode<K, E> x = head; // Dummy header node
@@ -94,8 +94,13 @@ public class SkipList<K extends Comparable<K>, E>
             return toReturn;
         }
 
-        return "Rectangle not found: (" + key.key() + ")";
+        return "(" + key.key() + ")";
     }
+    // IMPLEMENT
+    // regionsearch
+
+    // IMPLEMENT
+    // intersections
 
 
     public void dump()
@@ -126,33 +131,36 @@ public class SkipList<K extends Comparable<K>, E>
     // !NOTE!
     // Ensure it stops at the first and saves that
     // Double Check
-    public KVPair<K, E> removeByKey(K key) 
+    public KVPair<K, E> removeByKey(K key)
     {
         KVPair<K, E> removed = null; // tracks if the node has been found
         boolean found = false;
         int headLevelsToRemove = 0;
 
         SkipNode<K, E> x = head; // tracker pointer
-        for (int i = level; i >= 0; i--) 
+        for (int i = level; i >= 0; i--)
         { // For each level...
             while ((x.getForward()[i] != null) && (key.compareTo(x
-                .getForward()[i].key()) > 0)) { // go forward 
+                .getForward()[i].key()) > 0))
+            { // go forward
                 x = x.getForward()[i]; // Go one last step
             }
             if (((x.getForward()[i] != null) && key.compareTo(x.getForward()[i]
                 .key()) == 0))
-            { // checks to see if we have found it 
+            { // checks to see if we have found it
                 found = true;
                 x.getForward()[i] = x.getForward()[i].getForward()[i];
-                if (x == head && x.getForward()[i] == null) // check to see if this covers all the problems
+                if (x == head && x.getForward()[i] == null) // check to see if
+                                                            // this covers all
+                                                            // the problems
                 {
                     headLevelsToRemove--;
                 }
             }
         }
-        if (found) 
-        {   
-            if (headLevelsToRemove > 0) 
+        if (found)
+        {
+            if (headLevelsToRemove > 0)
             {
                 adjustHead(headLevelsToRemove);
             }
@@ -160,6 +168,7 @@ public class SkipList<K extends Comparable<K>, E>
         }
         return removed;
     }
+
 
     // !NOTE!
     // Needs to be in main
