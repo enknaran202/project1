@@ -237,7 +237,7 @@ public class SkipList<K extends Comparable<K>, E>
 
         while (cur.getForward()[0] != null)
         {
-            if (cur.getForward()[0].pair().theVal.equals(rect))
+            if (((Rectangle)cur.getForward()[0].pair().theVal).isIntersecting(rect))
             {
                 saved = saved + cur.getForward()[0].pair().theVal.toString()
                     + "\n";
@@ -250,11 +250,10 @@ public class SkipList<K extends Comparable<K>, E>
     }
 
 
-    public String intersections(SkipList<?, ?> list)
+    public String intersections()
     {
-
-        return null;
-
+        SkipNode<K, E>  = this.head;
+        return "";
     }
 
 

@@ -16,11 +16,11 @@ public class RectangleTest extends TestCase{
         
     }
     
-  
+    // NEED TO CHANGE
+    // rect.equals(testRec);
     public void testEquals() {
         
         assertTrue(Rectangle.equals(1,1,1,1,rect));
-     
         assertFalse(Rectangle.equals(0,1,1,1, rect));
         assertFalse(Rectangle.equals(1,0,1,1, rect));
         assertFalse(Rectangle.equals(1,1,0,1, rect));
