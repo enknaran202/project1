@@ -15,7 +15,7 @@ public class SkipList<K extends Comparable<K>, E>
     {
         level = -1;
         size = 0;
-        head = new SkipNode<K,E> (null, null, 1);
+        head = new SkipNode<K,E> (null, null, -1);
     }
 
 
@@ -81,7 +81,7 @@ public class SkipList<K extends Comparable<K>, E>
 
                 x = x.getForward()[i]; // Go one last step
             }
-            if (key.compareTo(x.getForward()[i].key()) == 0)
+            if (x.getForward()[i] != null && key.compareTo(x.getForward()[i].key()) == 0)
             {
                 found = true;
                 x = x.getForward()[0];
@@ -93,14 +93,14 @@ public class SkipList<K extends Comparable<K>, E>
             return toReturn;
         }
 
-        return "(" + key + ")";
+        return "Rectangle not found: (" + key + ")";
     }
 
 
     public void dump()
     {
         int size = 0;
-        int depth = 1;
+        int depth = -1;
         int startLvl = 0;
         SkipNode<K, E> temp = head;
 
