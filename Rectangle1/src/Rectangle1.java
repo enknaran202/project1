@@ -116,11 +116,11 @@ public class Rectangle1
                                 .toString());
                             break;
                         }
-                        list.regionSearch(rect);
+                        System.out.println(list.regionSearch(rect));
                         break;
 
                     case "intersections":
-                        // call intersections
+                        System.out.println(list.intersections());
                         break;
 
                     case "dump":
@@ -129,8 +129,8 @@ public class Rectangle1
 
                     case "search":
                         name = scancmd.next();
-
-                        // call search by name
+                        
+                        list.search(name);
                         break;
 
                     default:

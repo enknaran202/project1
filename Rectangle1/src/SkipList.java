@@ -165,9 +165,6 @@ public class SkipList<K extends Comparable<K>, E>
     }
 
 
-    // !NOTE!
-    // Needs to be in main
-    // remove by value
     public KVPair<K, E> removeByValue(E value)
     {
         KVPair<K, E> removed = null;
@@ -238,7 +235,6 @@ public class SkipList<K extends Comparable<K>, E>
                     + "\n";
             }
         }
-
         System.out.println("Rectangles intersecting region:" + rect.toString()
             + ": \n");
         return saved;
