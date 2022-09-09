@@ -28,7 +28,7 @@ public class SkipListTest extends TestCase
 
     public void testRandomLevel()
     {
-
+        TestableRandom.setNextBooleans(true, true, true);
     }
 
 

@@ -44,23 +44,25 @@ public class Rectangle {
     // VERY IMPORTANT: stacked the double ifs into one if to make coverage easier (or is it harder?) and logic easier
     // need for webcat?
     // are certain cases impossible to test due to double iffing???
-    public boolean isIntersecting(Rectangle input) {
-        if ((this.x >= input.x && this.x < input.x + input.width) && (this.y >= input.y && this.y < input.y + input.height)) {
-            
-            return true;
-        }
-        else if ((this.x >= input.x && this.x < input.x + input.width) && (input.y >= this.y && input.y < this.y + this.height)) {
-            
+    public boolean isIntersecting(Rectangle input) 
+    {
+        if ((withinBounds(this.x, this.width, input.x, input.width) 
+            && (withinBounds(this.y, this.height, input.y, input.height))))
+        {
             return true;
         }
         
-        else if ((input.x >= this.x && input.x < this.x + this.width)) {
-            if (input.y >= this.y && input.y < this.y + this.height) {
-                return true;
-            }
-            else if (this.y >= input.y && this.y < input.y + input.height) {
-                return true;
-            }
+        return false;
+    }
+    private boolean withinBounds(int aCoord, int aDim, int bCoord, int bDim)
+    {
+        if(bCoord >= aCoord && bCoord < aCoord + aDim) 
+        {
+            return true;
+        }
+        if(aCoord >= bCoord && aCoord < bCoord + bDim) 
+        {
+            return true;
         }
         return false;
     }
