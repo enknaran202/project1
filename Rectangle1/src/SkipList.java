@@ -231,7 +231,7 @@ public class SkipList<K extends Comparable<K>, E>
             if (((Rectangle)cur.getForward()[0].pair().theVal).isIntersecting(
                 rect))
             {
-                saved = saved + cur.getForward()[0].pair().theVal.toString()
+                saved += cur.getForward()[0].pair().theVal.toString()
                     + "\n";
             }
         }
