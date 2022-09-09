@@ -1,13 +1,11 @@
-public class Rectangle
-{
+public class Rectangle {
 
     private int x;
     private int y;
     private int width;
     private int height;
 
-    public Rectangle(int x, int y, int width, int height)
-    {
+    public Rectangle(int x, int y, int width, int height) {
         this.setX(x);
         this.setY(y);
         this.setWidth(width);
@@ -15,24 +13,19 @@ public class Rectangle
     }
 
 
-    public boolean equals(Object other)
-    {
-        if (this == other)
-        {
+    public boolean equals(Object other) {
+        if (this == other) {
             return true;
         }
 
-        if (other == null)
-        {
+        if (other == null) {
             return false;
         }
-        if (this.getClass().equals(other.getClass()))
-        {
+        if (this.getClass().equals(other.getClass())) {
             Rectangle otherRect = (Rectangle)other;
             if (this.getX() != otherRect.getX() || this.getY() != otherRect
                 .getY() || this.getWidth() != otherRect.getWidth() || this
-                    .getHeight() != otherRect.getHeight())
-            {
+                    .getHeight() != otherRect.getHeight()) {
                 return false;
             }
             return true;
@@ -41,30 +34,27 @@ public class Rectangle
     }
 
 
-   
     // returns true if both rectangles overlap somewhere
     // Figure out every case for Deep
-    public boolean isIntersecting(Rectangle input)
-    {
-        if (this.x >= input.x && this.x < input.x + input.width)
-        {
-            if (this.y >= input.y && this.y < input.y + input.height)
-            {
-                return true;
-            }
-            if (input.y >= this.y && input.y < this.y + this.height)
-            {
-                return true;
-            }
+    // NOTE: do we need to worry about negatives? nulls not necessary but maybe
+    // VERY IMPORTANT: stacked the double ifs into one if to make coverage easier (or is it harder?) and logic easier
+    // need for webcat?
+    // are certain cases impossible to test due to double iffing???
+    public boolean isIntersecting(Rectangle input) {
+        if ((this.x >= input.x && this.x < input.x + input.width) && (this.y >= input.y && this.y < input.y + input.height)) {
+            
+            return true;
         }
-        if ((input.x >= this.x && input.x < this.x + this.width))
-        {
-            if (input.y >= this.y && input.y < this.y + this.height)
-            {
+        if ((this.x >= input.x && this.x < input.x + input.width) && (input.y >= this.y && input.y < this.y + this.height)) {
+            
+            return true;
+        }
+        
+        if ((input.x >= this.x && input.x < this.x + this.width)) {
+            if (input.y >= this.y && input.y < this.y + this.height) {
                 return true;
             }
-            if (this.y >= input.y && this.y < input.y + input.height)
-            {
+            if (this.y >= input.y && this.y < input.y + input.height) {
                 return true;
             }
         }
@@ -75,8 +65,7 @@ public class Rectangle
     /**
      * @return the x
      */
-    public int getX()
-    {
+    public int getX() {
         return x;
     }
 
@@ -85,8 +74,7 @@ public class Rectangle
      * @param x
      *            the x to set
      */
-    public void setX(int x)
-    {
+    public void setX(int x) {
         this.x = x;
     }
 
@@ -94,8 +82,7 @@ public class Rectangle
     /**
      * @return the y
      */
-    public int getY()
-    {
+    public int getY() {
         return y;
     }
 
@@ -104,8 +91,7 @@ public class Rectangle
      * @param y
      *            the y to set
      */
-    public void setY(int y)
-    {
+    public void setY(int y) {
         this.y = y;
     }
 
@@ -113,8 +99,7 @@ public class Rectangle
     /**
      * @return the width
      */
-    public int getWidth()
-    {
+    public int getWidth() {
         return width;
     }
 
@@ -123,8 +108,7 @@ public class Rectangle
      * @param width
      *            the width to set
      */
-    public void setWidth(int width)
-    {
+    public void setWidth(int width) {
         this.width = width;
     }
 
@@ -132,8 +116,7 @@ public class Rectangle
     /**
      * @return the height
      */
-    public int getHeight()
-    {
+    public int getHeight() {
         return height;
     }
 
@@ -142,16 +125,14 @@ public class Rectangle
      * @param height
      *            the height to set
      */
-    public void setHeight(int height)
-    {
+    public void setHeight(int height) {
         this.height = height;
     }
 
 
-    public String toString()
-    {
+    public String toString() {
 
-        return  x + ", " + y + ", " + width + ", " + height;
+        return x + ", " + y + ", " + width + ", " + height;
 
     }
 }
