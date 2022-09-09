@@ -4,7 +4,7 @@ import student.TestableRandom;
 
 public class SkipList<K extends Comparable<K>, E>
 {
-    private Random rnd; // Random number generator
+    private Random rnd = new TestableRandom(); // Random number generator
     private int level;
     private int size;
     private SkipNode<K, E> head;
@@ -13,10 +13,9 @@ public class SkipList<K extends Comparable<K>, E>
 
     public SkipList()
     {
-        rnd = new TestableRandom();
-        level = 0;
+        level = -1;
         size = 0;
-        head = null;
+        head = new SkipNode<K,E> (null, null, 1);
     }
 
 
@@ -57,7 +56,7 @@ public class SkipList<K extends Comparable<K>, E>
             }
             update[i] = x; // Track end at level i
         }
-        x = new SkipNode<K, E>(it.key(), it.value(), newLevel);
+        x = new SkipNode<K, E>(it, newLevel);
         for (int i = 0; i <= newLevel; i++)
         { // Splice into list
             x.getForward()[i] = update[i].getForward()[i]; // Who x points to

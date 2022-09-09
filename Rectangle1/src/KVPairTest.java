@@ -5,7 +5,7 @@
 import student.TestCase;
 
 /**
- * @author Deep Datta, (name here)
+ * @author Deep Datta, Enk Naran
  *         Note: make sure to write comments and concerns later
  * 
  */

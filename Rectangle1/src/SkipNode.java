@@ -44,6 +44,21 @@ public class SkipNode<K extends Comparable<K>, E>
         }
     }
 
+
+    public SkipNode(KVPair<K,E> pair, int level)
+    {
+        rec = pair;
+        setForward(new SkipNode[level + 1]); // can instantiate differently, not
+        // sure if it causes errors
+
+        for (int i = 0; i < level; i++)
+        {
+
+            getForward()[i] = null;
+
+        }
+    }
+
     /*
      * public SkipNode(KVPair<K, E> it, int newLevel) { //can be tested with a
      * premade KV pair
