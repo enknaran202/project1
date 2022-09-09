@@ -68,7 +68,6 @@ public class SkipList<K extends Comparable<K>, E>
     }
 
 
-    // Can I make it return an array
     public String search(KVPair<K, E> key)
     {
         SkipNode<K, E> x = head; // Dummy header node
@@ -97,11 +96,6 @@ public class SkipList<K extends Comparable<K>, E>
 
         return "(" + key.key() + ")";
     }
-    // IMPLEMENT
-    // regionsearch
-
-    // IMPLEMENT
-    // intersections
 
 
     public void dump()
@@ -237,7 +231,8 @@ public class SkipList<K extends Comparable<K>, E>
 
         while (cur.getForward()[0] != null)
         {
-            if (((Rectangle)cur.getForward()[0].pair().theVal).isIntersecting(rect))
+            if (((Rectangle)cur.getForward()[0].pair().theVal).isIntersecting(
+                rect))
             {
                 saved = saved + cur.getForward()[0].pair().theVal.toString()
                     + "\n";
@@ -252,8 +247,32 @@ public class SkipList<K extends Comparable<K>, E>
 
     public String intersections()
     {
-        SkipNode<K, E>  = this.head;
-        return "";
+        String toReturn = "Intersection pairs: \n";
+        SkipNode<K, E> pointerA = this.head;
+        // if empty
+        if (pointerA.getForward()[0] == null)
+        {
+            return toReturn;
+        }
+        SkipNode<K, E> pointerB = pointerA.getForward()[0];
+        while (pointerA.getForward()[0] != null)
+        {
+            while (pointerB.getForward()[0] != null)
+            {
+                if (pointerA.getForward()[0].pair().theVal.equals(pointerB
+                    .getForward()[0].pair().theVal))
+                    ;
+                {
+                    // Ensure correct print outs
+                    toReturn += "(" + pointerA.getForward()[0].pair().toString()
+                        + " | " + pointerB.getForward()[0].pair().toString()
+                        + ") \n";
+                }
+                pointerB = pointerB.getForward()[0];
+            }
+            pointerA = pointerA.getForward()[0];
+        }
+        return toReturn;
     }
 
 

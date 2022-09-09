@@ -84,12 +84,12 @@ public class Rectangle1
 
                             if (pair == null)
                             {
-                                System.out.println("Rectangle not removed: "
-                                    + rect.toString());
+                                System.out.println("Rectangle not removed: ("
+                                    + rect.toString() + ")");
                                 break;
                             }
-                            System.out.println("Rectangle removed: " + pair
-                                .toString());
+                            System.out.println("Rectangle removed: (" + pair
+                                .toString() + ")");
                             break;
                         }
                         // else remove by name
@@ -100,8 +100,8 @@ public class Rectangle1
                                 + token);
                             break;
                         }
-                        System.out.println("Rectangle removed: " + list
-                            .removeByKey(token));
+                        System.out.println("Rectangle removed: (" + list
+                            .removeByKey(token).toString() + ")");
                         break;
 
                     case "regionsearch":
