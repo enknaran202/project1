@@ -16,27 +16,57 @@ public class RectangleTest extends TestCase{
         
     }
     
-    // NEED TO CHANGE
-    // rect.equals(testRec);
+  
     public void testEquals() {
         
-        assertTrue(Rectangle.equals(1,1,1,1,rect));
-        assertFalse(Rectangle.equals(0,1,1,1, rect));
-        assertFalse(Rectangle.equals(1,0,1,1, rect));
-        assertFalse(Rectangle.equals(1,1,0,1, rect));
-        assertFalse(Rectangle.equals(1,1,1,0, rect));
-        assertFalse(Rectangle.equals(0,0,1,1, rect));
-        assertFalse(Rectangle.equals(0,1,0,1, rect));
-        assertFalse(Rectangle.equals(1,0,0,1, rect));
-        assertFalse(Rectangle.equals(0,1,1,0, rect));
-        assertFalse(Rectangle.equals(1,0,1,0, rect));
-        assertFalse(Rectangle.equals(1,1,0,0, rect));
-        
+        assertTrue(rect.equals(rect));
+        assertFalse(rect.equals(null));
+        Object obj = new Object();
+        assertFalse(rect.equals(obj));
+        Rectangle same = new Rectangle(1,1,1,1);
+        assertTrue(rect.equals(same));
+        Rectangle ret1 = new Rectangle(2,1,1,1);
+        assertFalse(rect.equals(ret1));
+        Rectangle ret2 = new Rectangle(1,2,1,1);
+        assertFalse(rect.equals(ret2));
+        Rectangle ret3 = new Rectangle(1,1,2,1);
+        assertFalse(rect.equals(ret3));
+        Rectangle ret4 = new Rectangle(1,1,1,2);
+        assertFalse(rect.equals(ret4));
+        Rectangle ret5 = new Rectangle(2,2,1,1);
+        assertFalse(rect.equals(ret5));
+        Rectangle ret6 = new Rectangle(2,1,2,1);
+        assertFalse(rect.equals(ret6));
+        Rectangle ret7 = new Rectangle(2,1,1,2);
+        assertFalse(rect.equals(ret7));
+        Rectangle ret8 = new Rectangle(1,2,2,1);
+        assertFalse(rect.equals(ret8));
+        Rectangle ret9 = new Rectangle(1,2,1,2);
+        assertFalse(rect.equals(ret9));
+        Rectangle ret10 = new Rectangle(1,1,2,2);
+        assertFalse(rect.equals(ret10));
+        Rectangle ret11 = new Rectangle(2,2,1,2);
+        assertFalse(rect.equals(ret11));
+        Rectangle ret12 = new Rectangle(2,1,2,2);
+        assertFalse(rect.equals(ret12));
+        Rectangle ret13 = new Rectangle(1,2,2,2);
+        assertFalse(rect.equals(ret13));
+        Rectangle ret14 = new Rectangle(2,2,2,1);
+        assertFalse(rect.equals(ret14));
+        Rectangle ret15 = new Rectangle(2,2,2,2);
+        assertFalse(rect.equals(ret15));
     } 
    
     public void testIsIntesecting() {
         
-        // Note: not sure if needed 
+        assertTrue(rect.isIntersecting(rect));
+        Rectangle test = new Rectangle(5,5,5,5);
+        assertTrue(test.isIntersecting(new Rectangle(5,5,5,5)));
+        assertTrue(test.isIntersecting(new Rectangle(5,5,0,5)));
+        assertTrue(test.isIntersecting(new Rectangle(5,5,5,0)));
+        assertTrue(test.isIntersecting(new Rectangle(5,5,1,1)));
+        assertTrue(test.isIntersecting(new Rectangle(5,5,10,10)));
+       // assertFalse(rect.isIntersecting(new Rectangle(5,5,1,2)));
         
     }
     

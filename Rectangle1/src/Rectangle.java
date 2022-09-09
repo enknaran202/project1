@@ -41,20 +41,7 @@ public class Rectangle
     }
 
 
-    // !QUESTION!
-    // How do I pass in a SkipList? Is <?,?> ok?
-    // should this return string or can it be a SkipList?
-    //
-    // Report all rectangles in database that intersect with the given region
-    // Pre: Width and Height MUST both be greater than zero
-    // Must OVERLAP not just touch
-    public String regionSearch(SkipList<?, ?> list, int x, int y, int w, int h)
-    {
-        // list.
-        return "";
-    }
-
-
+   
     // returns true if both rectangles overlap somewhere
     // Figure out every case for Deep
     public boolean isIntersecting(Rectangle input)
