@@ -14,18 +14,22 @@ public class Rectangle {
 
 
     public boolean equals(Object other) {
-        if (this == other) {
+        if (this == other) 
+        {
             return true;
         }
 
-        if (other == null) {
+        if (other == null) 
+        {
             return false;
         }
-        if (this.getClass().equals(other.getClass())) {
+        else if (this.getClass().equals(other.getClass())) 
+        {
             Rectangle otherRect = (Rectangle)other;
             if (this.getX() != otherRect.getX() || this.getY() != otherRect
                 .getY() || this.getWidth() != otherRect.getWidth() || this
-                    .getHeight() != otherRect.getHeight()) {
+                    .getHeight() != otherRect.getHeight()) 
+            {
                 return false;
             }
             return true;
@@ -45,16 +49,16 @@ public class Rectangle {
             
             return true;
         }
-        if ((this.x >= input.x && this.x < input.x + input.width) && (input.y >= this.y && input.y < this.y + this.height)) {
+        else if ((this.x >= input.x && this.x < input.x + input.width) && (input.y >= this.y && input.y < this.y + this.height)) {
             
             return true;
         }
         
-        if ((input.x >= this.x && input.x < this.x + this.width)) {
+        else if ((input.x >= this.x && input.x < this.x + this.width)) {
             if (input.y >= this.y && input.y < this.y + this.height) {
                 return true;
             }
-            if (this.y >= input.y && this.y < input.y + input.height) {
+            else if (this.y >= input.y && this.y < input.y + input.height) {
                 return true;
             }
         }

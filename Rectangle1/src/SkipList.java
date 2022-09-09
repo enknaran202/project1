@@ -68,7 +68,7 @@ public class SkipList<K extends Comparable<K>, E>
     }
 
 
-    public String search(KVPair<K, E> key)
+    public String search(K key)
     {
         SkipNode<K, E> x = head; // Dummy header node
         String toReturn = "Rectangles found:";
@@ -94,7 +94,7 @@ public class SkipList<K extends Comparable<K>, E>
             return toReturn;
         }
 
-        return "(" + key.key() + ")";
+        return "(" + key + ")";
     }
 
 
@@ -157,7 +157,7 @@ public class SkipList<K extends Comparable<K>, E>
         {
             if (headLevelsToRemove > 0)
             {
-                adjustHead(headLevelsToRemove);
+                adjustHead(level - headLevelsToRemove);
             }
             size--;
         }

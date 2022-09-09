@@ -1,3 +1,11 @@
+
+// Virginia Tech Honor Code Pledge:
+//
+// As a Hokie, I will conduct myself with honor and integrity at all times.
+// I will not lie, cheat, or steal, nor will I accept the actions of those who
+// do.
+// Enk Narantsatsralt {enk} 
+// DEEP I NEED YOUR PID {THEDEEP}
 import java.io.File;
 import java.util.Scanner;
 
@@ -7,7 +15,6 @@ public class Rectangle1
     {
 
     }
-
 
     // Open DSA
     // !QUESTION!
@@ -129,7 +136,6 @@ public class Rectangle1
 
                     case "search":
                         name = scancmd.next();
-                        
                         list.search(name);
                         break;
 
