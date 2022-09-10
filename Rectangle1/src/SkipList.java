@@ -13,9 +13,9 @@ public class SkipList<K extends Comparable<K>, E>
 
     public SkipList()
     {
-        level = -1;
+        level = 0;
         size = 0;
-        head = new SkipNode<K,E> (null, null, -1);
+        head = new SkipNode<K, E>(null, null, 0);
     }
 
 
@@ -69,56 +69,54 @@ public class SkipList<K extends Comparable<K>, E>
 
     public String search(K key)
     {
-        SkipNode<K, E> x = head; // Dummy header node
         String toReturn = "Rectangles found:";
+        SkipNode<K, E> x = head; // Dummy header node
+        int tempLevel = level;
         boolean found = false;
-        // for loop can be improved. Need an exit system
-        for (int i = level; i >= 0; i--)
+
+        for (int i = tempLevel; i >= 0; i--)
         { // For each level...
             while ((x.getForward()[i] != null) && (key.compareTo(x
                 .getForward()[i].key()) > 0))
-            { // go forward
-
-                x = x.getForward()[i]; // Go one last step
-            }
-            if (x.getForward()[i] != null && key.compareTo(x.getForward()[i].key()) == 0)
-            {
-                found = true;
-                x = x.getForward()[0];
-                toReturn = toReturn + "\n" + "(" + x.toString() + ")";
-            }
+            {// go forward
+                x = x.getForward()[i];
+            } // Go one last step
         }
+        x = x.getForward()[0];
+        while ((x != null) && (key.compareTo(x.key()) == 0))
+        {
+            found = true;
+            toReturn = toReturn + "\n" + "(" + x.toString() + ")";
+            x = x.getForward()[0];
+        }
+
         if (found)
         {
             return toReturn;
         }
-
         return "Rectangle not found: (" + key + ")";
+
     }
 
 
-    public void dump()
+    public String dump()
     {
-        int size = 0;
-        int depth = -1;
+        int depth = 0;
         int startLvl = 0;
+        String toReturn = "SkipList dump:\n";
         SkipNode<K, E> temp = head;
-
-        System.out.println("SkipList dump:");
-
-        if (temp == null)
+        toReturn += "Node has depth " + head.getForward().length + ", Value (null)\n";
+        
+        while (temp.getForward()[startLvl] != null)
         {
-            System.out.println("Node has depth " + depth + ", Value (null)");
-        }
-        while (temp != null)
-        {
-            depth = temp.getForward().length;
             temp = temp.getForward()[startLvl];
-            System.out.println("Node has a depth " + depth + ", Value (" + temp
-                .toString() + ")");
-            size++;
+            depth = temp.getForward().length;
+            toReturn += "Node has a depth " + depth + ", Value (" + temp
+                .toString() + ")\n";
         }
-        System.out.println("SkipList size is: " + size);
+        toReturn += "SkipList size is: " + size;
+
+        return toReturn;
     }
 
 
@@ -230,8 +228,7 @@ public class SkipList<K extends Comparable<K>, E>
             if (((Rectangle)cur.getForward()[0].pair().theVal).isIntersecting(
                 rect))
             {
-                saved += cur.getForward()[0].pair().theVal.toString()
-                    + "\n";
+                saved += cur.getForward()[0].pair().theVal.toString() + "\n";
             }
         }
         System.out.println("Rectangles intersecting region:" + rect.toString()
@@ -274,8 +271,8 @@ public class SkipList<K extends Comparable<K>, E>
     private void adjustHead(int newLevel)
     {
         SkipNode<K, E> temp = head;
-
         head = new SkipNode<K, E>(null, null, newLevel);
+
         for (int i = 0; i <= level; i++)
             head.getForward()[i] = temp.getForward()[i];
         level = newLevel;
