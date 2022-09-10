@@ -57,7 +57,7 @@ public class SkipList<K extends Comparable<K>, E>
             update[i] = x; // Track end at level i
         }
         x = new SkipNode<K, E>(it.theKey, it.theVal, newLevel);
-        
+
         for (int i = 0; i <= newLevel; i++)
         { // Splice into list
             x.getForward()[i] = update[i].getForward()[i]; // Who x points to
@@ -106,8 +106,9 @@ public class SkipList<K extends Comparable<K>, E>
         int startLvl = 0;
         String toReturn = "SkipList dump:\n";
         SkipNode<K, E> temp = head;
-        toReturn += "Node has depth " + head.getForward().length + ", Value (null)\n";
-        
+        toReturn += "Node has depth " + head.getForward().length
+            + ", Value (null)\n";
+
         while (temp.getForward()[startLvl] != null)
         {
             temp = temp.getForward()[startLvl];
@@ -126,40 +127,41 @@ public class SkipList<K extends Comparable<K>, E>
     // Double Check
     public KVPair<K, E> removeByKey(K key)
     {
-        KVPair<K, E> removed = null; // tracks if the node has been found
-        boolean found = false;
-        int headLevelsToRemove = 0;
-
-        SkipNode<K, E> x = head; // tracker pointer
-        for (int i = level; i >= 0; i--)
-        { // For each level...
+        SkipNode<K, E> x = head
+            ; // Start at header node
+        int tempLevel = level;
+        @SuppressWarnings("unchecked")
+        SkipNode<K, E>[] update = (SkipNode[])Array.newInstance(SkipNode.class,
+            level + 1);
+        
+        for(int i = level - 1; i>=0; i--) 
+        {
             while ((x.getForward()[i] != null) && (key.compareTo(x
                 .getForward()[i].key()) > 0))
-            { // go forward
-                x = x.getForward()[i]; // Go one last step
-            }
-            if (((x.getForward()[i] != null) && key.compareTo(x.getForward()[i]
-                .key()) == 0))
-            { // checks to see if we have found it
-                found = true;
-                x.getForward()[i] = x.getForward()[i].getForward()[i];
-                if (x == head && x.getForward()[i] == null) // check to see if
-                                                            // this covers all
-                                                            // the problems
-                {
-                    headLevelsToRemove--;
-                }
-            }
+            {// go forward
+                x = x.getForward()[i];
+                
+            } // Go one last step
+            update[i] = x;
         }
-        if (found)
+        x = x.getForward()[0];
+        if ((x != null) && (key.compareTo(x.key()) == 0))
         {
-            if (headLevelsToRemove > 0)
+            for (int i = 0; i > level; i++)
             {
-                adjustHead(level - headLevelsToRemove);
+                if (update[i].getForward()[i] != x.getForward()[i])
+                {
+                    return x.pair();
+                }
+                update[i].getForward()[i] = x.getForward()[i];
             }
-            size--;
         }
-        return removed;
+        while (tempLevel > 0 && head.getForward()[level] == null)
+        {
+            tempLevel--;
+        }
+        adjustHead(tempLevel);
+        return null;
     }
 
 

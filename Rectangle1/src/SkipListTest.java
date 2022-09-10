@@ -97,7 +97,7 @@ public class SkipListTest<K extends Comparable<K>, E> extends TestCase
 
     public void testRemoveByKey()
     {
-        
+        assertEquals(pair1, list.removeByKey(pair1.theKey));
     }
 
 
