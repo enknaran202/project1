@@ -135,7 +135,8 @@ public class SkipList<K extends Comparable<K>, E>
 
         for (int i = level; i >= 0; i--)
         {
-            while ((x.getForward()[i] != null) && (key.compareTo(x.getForward()[i].key()) > 0))
+            while ((x.getForward()[i] != null) && (key.compareTo(x
+                .getForward()[i].key()) > 0))
             {// go forward
                 x = x.getForward()[i];
 
