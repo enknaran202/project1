@@ -130,15 +130,15 @@ public class SkipList<K extends Comparable<K>, E>
         SkipNode<K, E> x = head; // Start at header node
         @SuppressWarnings("unchecked")
         SkipNode<K, E>[] update = (SkipNode[])Array.newInstance(SkipNode.class,
-            level +1);
-        
-        for(int i = level; i>=0; i--) 
+            level + 1);
+
+        for (int i = level; i >= 0; i--)
         {
             while ((x.getForward()[i] != null) && (key.compareTo(x
                 .getForward()[i].key()) > 0))
             {// go forward
                 x = x.getForward()[i];
-                
+
             } // Go one last step
             update[i] = x;
         }
@@ -149,7 +149,7 @@ public class SkipList<K extends Comparable<K>, E>
             {
                 if (update[i].getForward()[i] != x)
                 {
-                    //adjustHead(tempLevel);
+                    // adjustHead(tempLevel);
                     return x.pair();
                 }
                 update[i].getForward()[i] = x.getForward()[i];

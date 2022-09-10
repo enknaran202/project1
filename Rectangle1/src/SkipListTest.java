@@ -82,8 +82,9 @@ public class SkipListTest<K extends Comparable<K>, E> extends TestCase
             .search(pair1.theKey));
         assertEquals("Rectangles found:\n(2, 2, 0, 0, 0)", list.search(
             pair2.theKey));
-        KVPair<K,E> notInList = new KVPair("notInList", null);
-        assertEquals("Rectangle not found: (notInList)", list.search(notInList.theKey));
+        KVPair<K, E> notInList = new KVPair("notInList", null);
+        assertEquals("Rectangle not found: (notInList)", list.search(
+            notInList.theKey));
     }
 
 
@@ -98,41 +99,44 @@ public class SkipListTest<K extends Comparable<K>, E> extends TestCase
         TestableRandom.setNextBooleans(true, true, true, false);
         list2.insert(pair2);
 
-        assertEquals("SkipList dump:\n"
-            + "Node has depth 4, Value (null)\n"
+        assertEquals("SkipList dump:\n" + "Node has depth 4, Value (null)\n"
             + "Node has a depth 2, Value (1, 1, 0, 0, 0)\n"
             + "Node has a depth 2, Value (1, 1, 0, 0, 0)\n"
             + "Node has a depth 4, Value (2, 2, 0, 0, 0)\n"
             + "SkipList size is: 3", list2.dump());
     }
 
-
+// ISSUE WHEN REMOVING LAST NODE
     public void testRemoveByKey()
     {
-//        TestableRandom.setNextBooleans(true, true, true, true, true, true, true,
-//            true, false);
-//        list.insert(pair2);
-//        list.insert(pair3);
-        KVPair<K,E> notInList = new KVPair("notInList", rec3);
-        assertEquals(pair1.toString(), list.removeByKey(pair1.theKey).toString());
-        assertEquals("SkipList dump:\n"
-            + "Node has depth 4, Value (null)\n"
+        KVPair<K, E> notInList = new KVPair("notInList", rec3);
+        assertEquals(pair1.toString(), list.removeByKey(pair1.theKey)
+            .toString());
+        assertEquals("SkipList dump:\n" + "Node has depth 4, Value (null)\n"
             + "Node has a depth 1, Value (2, 2, 0, 0, 0)\n"
             + "Node has a depth 3, Value (3, 3, 0, 0, 0)\n"
             + "Node has a depth 4, Value (4, 3, 0, 0, 0)\n"
             + "SkipList size is: 4", list.dump());
-        assertEquals(pair2.toString(), list.removeByKey(pair2.theKey).toString());
-        
-        assertEquals(pair3.toString(), list.removeByKey(pair3.theKey).toString());
+// TestableRandom.setNextBooleans(true, true, true, false);
+        assertEquals(pair4.toString(), list.removeByKey(pair4.theKey)
+            .toString());
+        list.insert(pair4);
+        // assertEquals(pair4, list.removeByKey(pair4.theKey));
+        assertEquals(pair2.toString(), list.removeByKey(pair2.theKey)
+            .toString());
+
+        assertEquals(pair3.toString(), list.removeByKey(pair3.theKey)
+            .toString());
         assertEquals(null, list.removeByKey(pair3.theKey));
         assertEquals(null, list.removeByKey(notInList.theKey));
-        
+        assertEquals(pair4.toString(), list.removeByKey(pair4.theKey)
+            .toString());
     }
 
 
     public void testRemoveByValue()
     {
-        
+
     }
 
 
