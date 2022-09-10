@@ -106,6 +106,7 @@ public class SkipListTest<K extends Comparable<K>, E> extends TestCase
             + "SkipList size is: 3", list2.dump());
     }
 
+
 // ISSUE WHEN REMOVING LAST NODE
     public void testRemoveByKey()
     {
@@ -117,11 +118,9 @@ public class SkipListTest<K extends Comparable<K>, E> extends TestCase
             + "Node has a depth 3, Value (3, 3, 0, 0, 0)\n"
             + "Node has a depth 4, Value (4, 3, 0, 0, 0)\n"
             + "SkipList size is: 4", list.dump());
-// TestableRandom.setNextBooleans(true, true, true, false);
+        // tests removing the last, deepest node
         assertEquals(pair4.toString(), list.removeByKey(pair4.theKey)
             .toString());
-        list.insert(pair4);
-        // assertEquals(pair4, list.removeByKey(pair4.theKey));
         assertEquals(pair2.toString(), list.removeByKey(pair2.theKey)
             .toString());
 
