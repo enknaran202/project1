@@ -56,7 +56,8 @@ public class SkipList<K extends Comparable<K>, E>
             }
             update[i] = x; // Track end at level i
         }
-        x = new SkipNode<K, E>(it, newLevel);
+        x = new SkipNode<K, E>(it.theKey, it.theVal, newLevel);
+        
         for (int i = 0; i <= newLevel; i++)
         { // Splice into list
             x.getForward()[i] = update[i].getForward()[i]; // Who x points to
