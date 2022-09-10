@@ -97,7 +97,14 @@ public class SkipListTest<K extends Comparable<K>, E> extends TestCase
 
     public void testRemoveByKey()
     {
-        assertEquals(pair1, list.removeByKey(pair1.theKey));
+        TestableRandom.setNextBooleans(true,true,true,true,true,true, true, true, false);
+        list.insert(pair3);
+        KVPair<K,E> pairDelete = new KVPair("toDelete", rec3);
+        assertEquals(pair1.toString(), list.removeByKey(pair1.theKey).toString());
+        assertEquals(pair2.toString(), list.removeByKey(pair2.theKey).toString());
+        assertEquals(pair3.toString(), list.removeByKey(pair3.theKey).toString());
+        assertEquals(pair3.toString(), list.removeByKey(pair3.theKey).toString());
+        assertEquals(null, list.removeByKey(pairDelete.theKey));
     }
 
 
