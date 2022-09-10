@@ -27,9 +27,11 @@ public class Rectangle1Test extends TestCase{
     
     public void testParse() {
         
-        String testInput = "test.txt";
+        String testInput = "SkipListSampleInput.txt";
+        PrintStreamWithHistory sysout = systemOut();
         mian.parse(testInput);
-        assertTrue(systemOut().getHistory().equals(""));
+        assertTrue(sysout.getHistory().equals(""));
+        sysout.clearHistory();
         
     }
 }
