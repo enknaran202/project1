@@ -30,7 +30,7 @@ public class Rectangle1
         // !QUESTION!
         // I want to instantiate once and change as we go
         // Does this look correct?
-        KVPair pair = new KVPair(null, null);
+        KVPair<String, Rectangle> pair = new KVPair<String, Rectangle>(null, null);
         Rectangle rect = new Rectangle(0, 0, 0, 0);
         try
         {
