@@ -9,7 +9,7 @@ import student.TestCase;
  * RectangleTest Class
  * Description: Test class for Rectangle object
  * 
- * @author Deep Datta (PID: ddeep21), (Hank put your stuff here)
+ * @author Deep Datta (PID: ddeep21), Enk Naran (PID: enk)
  * 
  */
 
@@ -91,6 +91,16 @@ public class RectangleTest extends TestCase {
         assertFalse(test.isIntersecting(new Rectangle(11, 1, 1, 1)));
         assertFalse(test.isIntersecting(new Rectangle(1, 11, 1, 1)));
         assertTrue(test.isIntersecting(new Rectangle(4, 4, 4, 4)));
+        Rectangle test2 = new Rectangle(5, 5, 4, 4);
+        Rectangle test3 = new Rectangle(5, 1, 1, 1);
+        Rectangle test4 = new Rectangle(11, 1, 1, 1);
+        Rectangle test5 = new Rectangle(1, 11, 1, 1);
+        Rectangle test6 = new Rectangle(4, 4, 4, 4);
+        assertTrue(test2.isIntersecting(test));
+        assertFalse(test3.isIntersecting(test));
+        assertFalse(test4.isIntersecting(test));
+        assertFalse(test5.isIntersecting(test));
+        assertTrue(test6.isIntersecting(test));
     }
 
 
