@@ -18,10 +18,12 @@ public class SkipListTest<K extends Comparable<K>, E> extends TestCase
     private KVPair<K, E> pair1;
     private KVPair<K, E> pair2;
     private KVPair<K, E> pair3;
+    private KVPair<K, E> pair4;
 
     private Rectangle rec1;
     private Rectangle rec2;
     private Rectangle rec3;
+    private Rectangle rec4;
 
     @SuppressWarnings(
     { "unchecked", "rawtypes" })
@@ -32,13 +34,20 @@ public class SkipListTest<K extends Comparable<K>, E> extends TestCase
         rec1 = new Rectangle(1, 0, 0, 0);
         rec2 = new Rectangle(2, 0, 0, 0);
         rec3 = new Rectangle(3, 0, 0, 0);
-        pair1 = new KVPair("a", rec1);
-        pair2 = new KVPair("b", rec2);
-        pair3 = new KVPair("c", rec3);
+        rec4 = new Rectangle(3, 0, 0, 0);
+        pair1 = new KVPair("1", rec1);
+        pair2 = new KVPair("2", rec2);
+        pair3 = new KVPair("3", rec3);
+        pair4 = new KVPair("4", rec4);
 
-        assertTrue(list.insert(pair1));
-        assertTrue(list.insert(pair1));
-        assertTrue(list.insert(pair2));
+        TestableRandom.setNextBooleans(true, false);
+        list.insert(pair1);
+        TestableRandom.setNextBooleans(false);
+        list.insert(pair2);
+        TestableRandom.setNextBooleans(true, true, false);
+        list.insert(pair3);
+        TestableRandom.setNextBooleans(true, true, true, false);
+        list.insert(pair4);
 
         // Make SkipNodes and populate them with KCPair objects and then
         // Rectangle in each pair
@@ -68,11 +77,13 @@ public class SkipListTest<K extends Comparable<K>, E> extends TestCase
 
     public void testSearch()
     {
-        assertEquals("Rectangles found:\n(a, 1, 0, 0, 0)\n(a, 1, 0, 0, 0)", list
+        list.insert(pair1);
+        assertEquals("Rectangles found:\n(1, 1, 0, 0, 0)\n(1, 1, 0, 0, 0)", list
             .search(pair1.theKey));
-        assertEquals("Rectangles found:\n(b, 2, 0, 0, 0)", list.search(
+        assertEquals("Rectangles found:\n(2, 2, 0, 0, 0)", list.search(
             pair2.theKey));
-        assertEquals("Rectangle not found: (c)", list.search(pair3.theKey));
+        KVPair<K,E> notInList = new KVPair("notInList", null);
+        assertEquals("Rectangle not found: (notInList)", list.search(notInList.theKey));
     }
 
 
@@ -87,30 +98,41 @@ public class SkipListTest<K extends Comparable<K>, E> extends TestCase
         TestableRandom.setNextBooleans(true, true, true, false);
         list2.insert(pair2);
 
-        assertEquals("SkipList dump:\n" + "Node has depth 4, Value (null)\n"
-            + "Node has a depth 2, Value (a, 1, 0, 0, 0)\n"
-            + "Node has a depth 2, Value (a, 1, 0, 0, 0)\n"
-            + "Node has a depth 4, Value (b, 2, 0, 0, 0)\n"
+        assertEquals("SkipList dump:\n"
+            + "Node has depth 4, Value (null)\n"
+            + "Node has a depth 2, Value (1, 1, 0, 0, 0)\n"
+            + "Node has a depth 2, Value (1, 1, 0, 0, 0)\n"
+            + "Node has a depth 4, Value (2, 2, 0, 0, 0)\n"
             + "SkipList size is: 3", list2.dump());
     }
 
 
     public void testRemoveByKey()
     {
-        TestableRandom.setNextBooleans(true,true,true,true,true,true, true, true, false);
-        list.insert(pair3);
-        KVPair<K,E> pairDelete = new KVPair("toDelete", rec3);
+//        TestableRandom.setNextBooleans(true, true, true, true, true, true, true,
+//            true, false);
+//        list.insert(pair2);
+//        list.insert(pair3);
+        KVPair<K,E> notInList = new KVPair("notInList", rec3);
         assertEquals(pair1.toString(), list.removeByKey(pair1.theKey).toString());
+        assertEquals("SkipList dump:\n"
+            + "Node has depth 4, Value (null)\n"
+            + "Node has a depth 1, Value (2, 2, 0, 0, 0)\n"
+            + "Node has a depth 3, Value (3, 3, 0, 0, 0)\n"
+            + "Node has a depth 4, Value (4, 3, 0, 0, 0)\n"
+            + "SkipList size is: 4", list.dump());
         assertEquals(pair2.toString(), list.removeByKey(pair2.theKey).toString());
+        
         assertEquals(pair3.toString(), list.removeByKey(pair3.theKey).toString());
-        assertEquals(pair3.toString(), list.removeByKey(pair3.theKey).toString());
-        assertEquals(null, list.removeByKey(pairDelete.theKey));
+        assertEquals(null, list.removeByKey(pair3.theKey));
+        assertEquals(null, list.removeByKey(notInList.theKey));
+        
     }
 
 
     public void testRemoveByValue()
     {
-
+        
     }
 
 

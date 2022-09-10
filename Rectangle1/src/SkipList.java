@@ -128,12 +128,11 @@ public class SkipList<K extends Comparable<K>, E>
     public KVPair<K, E> removeByKey(K key)
     {
         SkipNode<K, E> x = head; // Start at header node
-        int tempLevel = level;
         @SuppressWarnings("unchecked")
         SkipNode<K, E>[] update = (SkipNode[])Array.newInstance(SkipNode.class,
-            level + 1);
+            level +1);
         
-        for(int i = level - 1; i>=0; i--) 
+        for(int i = level; i>=0; i--) 
         {
             while ((x.getForward()[i] != null) && (key.compareTo(x
                 .getForward()[i].key()) > 0))
@@ -143,20 +142,19 @@ public class SkipList<K extends Comparable<K>, E>
             } // Go one last step
             update[i] = x;
         }
-        x = x.getForward()[0];
+        x = x.getForward()[0]; // should go to the node we're looking for
         if ((x != null) && (key.compareTo(x.key()) == 0))
         {
             for (int i = 0; i <= level; i++)
             {
                 if (update[i].getForward()[i] != x)
                 {
-                    adjustHead(tempLevel);
+                    //adjustHead(tempLevel);
                     return x.pair();
                 }
                 update[i].getForward()[i] = x.getForward()[i];
             }
         }
-       
         return null;
     }
 
