@@ -235,11 +235,10 @@ public class SkipList<K extends Comparable<K>, E>
             if (((Rectangle)cur.getForward()[0].pair().theVal).isIntersecting(
                 rect))
             {
-                saved += cur.getForward()[0].pair().theVal.toString() + "\n";
+                saved += "\n(" + cur.getForward()[0].pair().theVal.toString() + ")";
             }
+            cur = cur.getForward()[0];
         }
-        System.out.println("Rectangles intersecting region:" + rect.toString()
-            + ": \n");
         return saved;
     }
 
