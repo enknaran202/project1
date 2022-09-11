@@ -17,7 +17,6 @@ public class Parser {
     // Open DSA
     // !QUESTION!
     // Do we assume the inputs will be perfect?
-    @SuppressWarnings("unchecked")
     public void parseFile(String filename) {
 
         Rectangle rect = new Rectangle(0, 0, 0, 0);
@@ -33,10 +32,6 @@ public class Parser {
             while (sc.hasNext()) // While we have text to read
             {
                 token = sc.next();
-                // String[] line = sc.nextLine().strip().split("\\s"); (clean up
-                // later)
-
-                System.out.println(token);
 
                 switch (token) {
 
@@ -51,17 +46,21 @@ public class Parser {
                         rect.setY(y);
                         rect.setWidth(width);
                         rect.setHeight(height);
-                        if (width < 0 || height < 0 || x + width > 1024 || y
+                        if (width <= 0 || height <= 0 || x + width > 1024 || y
                             + height > 1024 || x < 0 || y < 0) // checks for
                                                                // validity
                         {
-                            System.out.println("Rectangle rejected: (" + rect
-                                .toString() + ")");
+                            System.out.println("Rectangle rejected: (" + name
+                                + ", " + rect.toString() + ")");
                         }
+                        else {
 
-                        pair.theKey = name;
-                        pair.theVal = rect;
-                        list.insert(pair);
+                            list.insert(new KVPair<String, Rectangle>(name,
+                                rect));
+                            System.out.println("Rectangle inserted: (" + name
+                                + ", " + rect.toString() + ")");
+
+                        }
                         break;
 
                     case "remove":
@@ -69,13 +68,26 @@ public class Parser {
                         // if removing by rectangle
                         if (Character.isDigit(name.charAt(0))) {
 
-                            rect.setX(Integer.parseInt(token)); // read each
-                                                                // dimensions
+                            rect.setX(Integer.parseInt(name)); // read each
+                                                               // dimensions
                             rect.setY(sc.nextInt());
                             rect.setWidth(sc.nextInt());
                             rect.setHeight(sc.nextInt());
+                            if (rect.getWidth() > 0 && rect.getHeight() > 0
+                                && rect.getX() + rect.getWidth() <= 1024 && rect
+                                    .getY() + rect.getHeight() <= 1024 && rect
+                                        .getX() >= 0 && rect.getY() >= 0) {
 
-                            pair = list.removeByValue(rect);
+                                pair = list.removeByValue(rect);
+
+                            }
+                            else {
+
+                                System.out.println("Rectangle rejected: ("
+                                    + rect.toString() + ")");
+                                break;
+
+                            }
 
                             if (pair == null) {
                                 System.out.println("Rectangle not removed: ("
@@ -87,12 +99,12 @@ public class Parser {
                                 .toString() + ")");
                             break;
                         }
-                        // else remove by name
+
                         pair = list.removeByKey(name);
 
                         if (pair == null) {
-                            System.out.println("Rectangle not removed: "
-                                + token);
+                            System.out.println("Rectangle not removed: (" + name
+                                + ")");
                             break;
                         }
 
@@ -108,17 +120,20 @@ public class Parser {
                         rect.setHeight(sc.nextInt());
 
                         if (rect.getWidth() <= 0 || rect.getHeight() <= 0) {
-                            System.out.println("Rectangle rejected: " + rect
-                                .toString());
+                            System.out.println("Rectangle rejected: (" + rect
+                                .toString() + ")");
                             break;
                         }
-
-                        System.out.println(list.regionSearch(rect));
+                        else {
+                            System.out.println(
+                                "Rectangles intersecting region (" + rect
+                                    .toString() + list.regionSearch(rect)
+                                    + "): ");
+                        }
                         break;
 
                     case "intersections":
 
-                        System.out.println();
                         System.out.println(list.intersections());
 
                         break;
@@ -132,7 +147,7 @@ public class Parser {
 
                         name = sc.next();
                         String output = list.search(name);
-                        if (output.equals(null)) {
+                        if (output == null) {
 
                             System.out.println("Rectangle not found: (" + name
                                 + ")");

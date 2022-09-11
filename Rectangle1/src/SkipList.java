@@ -104,7 +104,7 @@ public class SkipList<K extends Comparable<K>, E>
     {
         int depth = 0;
         int startLvl = 0;
-        String toReturn = "SkipList dump:";
+        String toReturn = "SkipList dump:\n";
         SkipNode<K, E> temp = head;
         toReturn += "Node has depth " + head.getForward().length
             + ", Value (null)";
@@ -113,7 +113,7 @@ public class SkipList<K extends Comparable<K>, E>
         {
             temp = temp.getForward()[startLvl];
             depth = temp.getForward().length;
-            toReturn += "\nNode has a depth " + depth + ", Value (" + temp
+            toReturn += "\nNode has depth " + depth + ", Value (" + temp
                 .toString() + ")";
         }
         toReturn += "\nSkipList size is: " + size;
@@ -245,7 +245,7 @@ public class SkipList<K extends Comparable<K>, E>
 
     public String intersections()
     {
-        String toReturn = "Intersection pairs:\n";
+        String toReturn = "Intersections pairs:";
         @SuppressWarnings("unchecked")
         SkipNode<String, Rectangle> pointerA = (SkipNode<String, Rectangle>)this.head;
         // if empty
