@@ -13,14 +13,17 @@ public class Rectangle1
 {
     public static void main(String[] args)
     {
-
+        String filename = args[0];//Pass the function a full filepath
+        parse(filename);//call the parsing function
+        
+     
     }
 
     // Open DSA
     // !QUESTION!
     // Do we assume the inputs will be perfect?
     @SuppressWarnings("unchecked")
-    public void parse(String filename)
+    public static void parse(String filename)
     {
         // !QUESTION!
         // "SkipList is a raw type. References to generic type SkipList<K,E>
