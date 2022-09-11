@@ -123,10 +123,8 @@ public class SkipList<K extends Comparable<K>, E>
 
 
     // ISSUE: WHere do i put updateHead?
-    // ISSUE: Can't remove last node effectively
     public KVPair<K, E> removeByKey(K key)
     {
-        Object toReturn = null;
         boolean found = false;
         SkipNode<K, E> x = head; // Start at header node
         @SuppressWarnings("unchecked")
@@ -144,6 +142,7 @@ public class SkipList<K extends Comparable<K>, E>
             update[i] = x;
         }
         x = x.getForward()[0]; // should go to the node we're looking for
+        // MISSING: One of the 4 cases
         if ((x != null) && (key.compareTo(x.key()) == 0))
         {
             found = true;
@@ -166,57 +165,8 @@ public class SkipList<K extends Comparable<K>, E>
 
     public KVPair<K, E> removeByValue(E value)
     {
-        KVPair<K, E> removed = null;
-        boolean found = false;
-        int numOfNulls = 0;
-
-        @SuppressWarnings("unchecked")
-        SkipNode<K, E>[] update = (SkipNode[])Array.newInstance(SkipNode.class,
-            level + 1);
-        SkipNode<K, E> curr = head; // tracker pointer
-
-        for (int i = level; i >= 0; i--)
-        { // For each level...
-
-            while ((curr.getForward()[i] != null) && !value.equals(curr
-                .getForward()[i].pair().theVal))
-            { // go forward
-                curr = curr.getForward()[i]; // Go one last step
-            }
-            if (value.equals(curr.getForward()[i].pair().theVal))
-            {
-                update[i] = curr;
-                found = true;
-            }
-            else
-            {
-                update[i] = curr;
-            }
-        }
-        for (int j = level; j >= 0; j--)
-        {
-            // if the cur level == a level in the node that we want to remove
-            // then we do curr.setForward[curLevel]
-            if (update[j].getForward() != null && value.equals(curr
-                .getForward()[j].pair().theVal))
-            {
-                // keeps track of how many null values in head
-                if (update[j].equals(head))
-                {
-                    numOfNulls++;
-                }
-                update[j].getForward()[j] = update[j].getForward()[j]
-                    .getForward()[j];
-            }
-        }
-
-        if (found) // If we found the node to remove
-        {
-            adjustHead(level - numOfNulls); // Change head array to remove all
-                                            // nulls
-            size--; // Decrement size of list
-        }
-        return removed;
+        
+        return null;
     }
 
 
