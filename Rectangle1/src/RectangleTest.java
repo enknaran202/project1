@@ -83,12 +83,15 @@ public class RectangleTest extends TestCase {
      * Description: Tests the isIntersecting method used in the Rectangle class
      * 
      */
-    public void testIsIntesecting() {
+    public void testIsIntesecting() 
+    {
         Rectangle test = new Rectangle(5, 5, 5, 5);
         assertTrue(test.isIntersecting(new Rectangle(5, 5, 4, 4)));
         assertFalse(test.isIntersecting(new Rectangle(5, 1, 1, 1)));
         assertFalse(test.isIntersecting(new Rectangle(1, 5, 1, 1)));
         assertFalse(test.isIntersecting(new Rectangle(11, 1, 1, 1)));
+        assertFalse(test.isIntersecting(new Rectangle(10, 1, 1, 1)));
+        assertFalse(test.isIntersecting(new Rectangle(1, 10, 1, 1)));
         assertFalse(test.isIntersecting(new Rectangle(1, 11, 1, 1)));
         assertTrue(test.isIntersecting(new Rectangle(4, 4, 4, 4)));
         Rectangle test2 = new Rectangle(5, 5, 4, 4);
@@ -101,6 +104,9 @@ public class RectangleTest extends TestCase {
         assertFalse(test4.isIntersecting(test));
         assertFalse(test5.isIntersecting(test));
         assertTrue(test6.isIntersecting(test));
+        //(a, 5, 5, 4, 4 | b, 400, 400, 1, 1)
+        test = new Rectangle(5,5,4,4);
+        assertFalse(test.isIntersecting(new Rectangle(400,400,1,1)));
     }
 
 

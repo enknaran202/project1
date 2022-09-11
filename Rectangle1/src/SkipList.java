@@ -70,7 +70,7 @@ public class SkipList<K extends Comparable<K>, E>
 
     public String search(K key)
     {
-        String toReturn = "Rectangles found:";
+        String toReturn = "";
         SkipNode<K, E> x = head; // Dummy header node
         int tempLevel = level;
         boolean found = false;
@@ -87,7 +87,7 @@ public class SkipList<K extends Comparable<K>, E>
         while ((x != null) && (key.compareTo(x.key()) == 0))
         {
             found = true;
-            toReturn = toReturn + "\n" + "(" + x.toString() + ")";
+            toReturn = toReturn + "\n(" + x.toString() + ")";
             x = x.getForward()[0];
         }
 
@@ -95,7 +95,7 @@ public class SkipList<K extends Comparable<K>, E>
         {
             return toReturn;
         }
-        return "Rectangle not found: (" + key + ")";
+        return null;
 
     }
 
@@ -104,19 +104,19 @@ public class SkipList<K extends Comparable<K>, E>
     {
         int depth = 0;
         int startLvl = 0;
-        String toReturn = "SkipList dump:\n";
+        String toReturn = "SkipList dump:";
         SkipNode<K, E> temp = head;
         toReturn += "Node has depth " + head.getForward().length
-            + ", Value (null)\n";
+            + ", Value (null)";
 
         while (temp.getForward()[startLvl] != null)
         {
             temp = temp.getForward()[startLvl];
             depth = temp.getForward().length;
-            toReturn += "Node has a depth " + depth + ", Value (" + temp
-                .toString() + ")\n";
+            toReturn += "\nNode has a depth " + depth + ", Value (" + temp
+                .toString() + ")";
         }
-        toReturn += "SkipList size is: " + size;
+        toReturn += "\nSkipList size is: " + size;
 
         return toReturn;
     }
@@ -150,6 +150,7 @@ public class SkipList<K extends Comparable<K>, E>
             {
                 if (update[i].getForward()[i] != x)
                 {
+                    size--;
                     return x.pair();
                 }
                 update[i].getForward()[i] = x.getForward()[i];
@@ -157,6 +158,15 @@ public class SkipList<K extends Comparable<K>, E>
         }
         if (found == true)
         {
+            int j = 0;
+            int nonNulLevels = 0;
+            while (j < head.getForward().length && head.getForward()[j] != null)
+            {
+                j++;
+                nonNulLevels++;
+            }
+            adjustHead(nonNulLevels -1);
+            size--;
             return x.pair();
         }
         return null;
@@ -165,7 +175,52 @@ public class SkipList<K extends Comparable<K>, E>
 
     public KVPair<K, E> removeByValue(E value)
     {
-        
+        SkipNode<K, E> x = head;
+        SkipNode<K, E> toRemove = head;
+        Boolean found = false;
+        int countArray = 0;
+        // ISSUE: .equals should call the rectangle .equals
+        // How do i use rectangle to equals?
+        while (toRemove.getForward()[0] != null && !value.equals(toRemove
+            .getForward()[0].pair().theVal))
+        {
+            toRemove = toRemove.getForward()[0];
+        }
+        // possibly the correct node
+        toRemove = toRemove.getForward()[0];
+        // if we found the node we want to remove
+        //ISSUE 1/4 covered
+        if (toRemove != null && value.equals(toRemove.pair().theVal))
+        {
+            found = true;
+            for (int i = 0; i <= toRemove.getForward().length - 1; i++)
+            {
+                x = head;
+                //ISSUE 1/4 missed
+                while (x.getForward()[i] != null && x.getForward()[i] != toRemove)
+                {
+                    x = x.getForward()[i];
+                }
+                //ISSUE 2/4 missed
+                if (x.getForward()[i] != null && x.getForward()[i] == toRemove)
+                {
+                    x.getForward()[i] = toRemove.getForward()[i];
+                }
+            }
+        }
+        if (found == true)
+        {
+        int j = 0;
+        int nonNulLevels = 0;
+        while (j < head.getForward().length && head.getForward()[j] != null)
+        {
+            j++;
+            nonNulLevels++;
+        }
+        adjustHead(nonNulLevels - 1);
+        size--;
+        return toRemove.pair();
+        }
         return null;
     }
 
@@ -191,26 +246,29 @@ public class SkipList<K extends Comparable<K>, E>
 
     public String intersections()
     {
-        String toReturn = "Intersection pairs: \n";
-        SkipNode<K, E> pointerA = this.head;
+        String toReturn = "Intersection pairs:\n";
+        @SuppressWarnings("unchecked")
+        SkipNode<String, Rectangle> pointerA = (SkipNode<String, Rectangle>)this.head;
         // if empty
         if (pointerA.getForward()[0] == null)
         {
             return toReturn;
         }
-        SkipNode<K, E> pointerB = pointerA.getForward()[0];
+        SkipNode<String, Rectangle> pointerB = null;
         while (pointerA.getForward()[0] != null)
         {
+            pointerB = pointerA.getForward()[0];
             while (pointerB.getForward()[0] != null)
             {
-                if (pointerA.getForward()[0].pair().theVal.equals(pointerB
-                    .getForward()[0].pair().theVal))
-                    ;
+                if (pointerA.getForward()[0].pair().theVal.isIntersecting(pointerB.getForward()[0].pair().theVal))
                 {
                     // Ensure correct print outs
                     toReturn += "(" + pointerA.getForward()[0].pair().toString()
                         + " | " + pointerB.getForward()[0].pair().toString()
-                        + ") \n";
+                        + ")\n";
+                    toReturn += "(" + pointerB.getForward()[0].pair().toString()
+                        + " | " + pointerA.getForward()[0].pair().toString()
+                        + ")\n";
                 }
                 pointerB = pointerB.getForward()[0];
             }
@@ -224,9 +282,19 @@ public class SkipList<K extends Comparable<K>, E>
     {
         SkipNode<K, E> temp = head;
         head = new SkipNode<K, E>(null, null, newLevel);
-
-        for (int i = 0; i <= level; i++)
-            head.getForward()[i] = temp.getForward()[i];
-        level = newLevel;
+        if (newLevel > level)
+        {
+            for (int i = 0; i <= level; i++)
+                head.getForward()[i] = temp.getForward()[i];
+                level = newLevel;
+        }
+        else
+        {
+            for (int i = 0; i <= newLevel; i++)
+            {
+                head.getForward()[i] = temp.getForward()[i];
+                level = newLevel;
+            }
+        }
     }
 }

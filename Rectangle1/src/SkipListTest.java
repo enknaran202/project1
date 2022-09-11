@@ -13,7 +13,7 @@ public class SkipListTest<K extends Comparable<K>, E> extends TestCase
 {
 
     private SkipList<String, Rectangle> list;
-    private SkipList<String, Rectangle> list2;
+    private SkipList<String, Rectangle> emptyList;
     private SkipList<String, Rectangle> listRNDM;
 
     private KVPair<String, Rectangle> pair1;
@@ -90,31 +90,33 @@ public class SkipListTest<K extends Comparable<K>, E> extends TestCase
     public void testSearch()
     {
         list.insert(pair1);
-        assertEquals("Rectangles found:\n(1, 1, 0, 0, 0)\n(1, 1, 0, 0, 0)", list
+        assertEquals("\n"
+            + "(1, 1, 0, 0, 0)\n"
+            + "(1, 1, 0, 0, 0)", list
             .search(pair1.theKey));
-        assertEquals("Rectangles found:\n(2, 2, 0, 0, 0)", list.search(
+        assertEquals("\n"
+            + "(2, 2, 0, 0, 0)", list.search(
             pair2.theKey));
-        assertEquals("Rectangle not found: (notInList)", list.search(
-            notInList.theKey));
+        assertEquals(null, list.search(notInList.theKey));
     }
 
 
     public void testDump()
     {
-        list2 = new SkipList<String, Rectangle>();
+        emptyList = new SkipList<String, Rectangle>();
 
         TestableRandom.setNextBooleans(true, false);
-        list2.insert(pair1);
+        emptyList.insert(pair1);
         TestableRandom.setNextBooleans(true, false);
-        list2.insert(pair1);
+        emptyList.insert(pair1);
         TestableRandom.setNextBooleans(true, true, true, false);
-        list2.insert(pair2);
+        emptyList.insert(pair2);
 
-        assertEquals("SkipList dump:\n" + "Node has depth 4, Value (null)\n"
+        assertEquals("SkipList dump:Node has depth 4, Value (null)\n"
             + "Node has a depth 2, Value (1, 1, 0, 0, 0)\n"
             + "Node has a depth 2, Value (1, 1, 0, 0, 0)\n"
             + "Node has a depth 4, Value (2, 2, 0, 0, 0)\n"
-            + "SkipList size is: 3", list2.dump());
+            + "SkipList size is: 3", emptyList.dump());
     }
 
 
@@ -133,10 +135,9 @@ public class SkipListTest<K extends Comparable<K>, E> extends TestCase
         assertEquals(null, list.removeByKey(pair3.theKey));
         assertEquals(null, list.removeByKey(notInList.theKey));
         assertEquals(null, list.removeByKey(pair4.theKey));
-        assertEquals("SkipList dump:\n"
-            + "Node has depth 4, Value (null)\n"
+        assertEquals("SkipList dump:Node has depth 2, Value (null)\n"
             + "Node has a depth 2, Value (1, 1, 0, 0, 0)\n"
-            + "SkipList size is: 4", list.dump());
+            + "SkipList size is: 1", list.dump());
         
         assertEquals(pair4.toString(), listRNDM.removeByKey(pair4.theKey)
             .toString());
@@ -157,34 +158,73 @@ public class SkipListTest<K extends Comparable<K>, E> extends TestCase
         //assertEquals("", list.dump());
         assertEquals(pair4.theVal.toString(), list.removeByValue(pair4.theVal).theVal
             .toString());
+        assertEquals("SkipList dump:Node has depth 3, Value (null)\n"
+            + "Node has a depth 2, Value (1, 1, 0, 0, 0)\n"
+            + "Node has a depth 1, Value (2, 2, 0, 0, 0)\n"
+            + "Node has a depth 3, Value (3, 3, 0, 0, 0)\n"
+            + "SkipList size is: 3", list.dump());
+        assertEquals(null, list.removeByValue(notInList.theVal));
         assertEquals(pair2.theVal.toString(), list.removeByValue(pair2.theVal).theVal
             .toString());
+        assertEquals("SkipList dump:Node has depth 3, Value (null)\n"
+            + "Node has a depth 2, Value (1, 1, 0, 0, 0)\n"
+            + "Node has a depth 3, Value (3, 3, 0, 0, 0)\n"
+            + "SkipList size is: 2", list.dump());
 
         assertEquals(pair3.theVal.toString(), list.removeByValue(pair3.theVal).theVal
             .toString());
         
         assertEquals(null, list.removeByValue(pair3.theVal));
-        assertEquals(null, list.removeByValue(notInList.theVal));
+
         assertEquals(null, list.removeByValue(pair4.theVal));
         
-    }
+        assertEquals(null, listRNDM.removeByKey(notInList.theKey));
+        assertEquals(pair4.toString(), listRNDM.removeByKey(pair4.theKey)
+            .toString());
+        assertEquals(pair2.toString(), listRNDM.removeByKey(pair2.theKey)
+            .toString());
 
+        assertEquals(pair3.toString(), listRNDM.removeByKey(pair3.theKey)
+            .toString());
+        assertEquals(null, listRNDM.removeByKey(pair3.theKey));
 
-    public void testRemoveByRectangle()
-    {
-
+        assertEquals(null, listRNDM.removeByKey(pair4.theKey));
+        
     }
 
 
     public void testRegionSearch()
     {
-
+       
     }
 
 
     public void testIntersections()
     {
-
+        emptyList = new SkipList<String, Rectangle>();
+        KVPair <String, Rectangle> intersect0 = new KVPair<String, Rectangle>("a", new Rectangle(5,5,4,4));
+        KVPair <String, Rectangle> intersect5 = new KVPair<String, Rectangle>("b", new Rectangle(4,4,4,4));
+        KVPair <String, Rectangle> intersect1 = new KVPair<String, Rectangle>("c", new Rectangle(5,1,1,1));
+        KVPair <String, Rectangle> intersect2 = new KVPair<String, Rectangle>("d", new Rectangle(1,5,1,1));
+        KVPair <String, Rectangle> intersect3 = new KVPair<String, Rectangle>("e", new Rectangle(11,1,1,1));
+        KVPair <String, Rectangle> intersect4 = new KVPair<String, Rectangle>("f", new Rectangle(1,11,1,1));
+        KVPair <String, Rectangle> notSecting0 = new KVPair<String, Rectangle>("a", new Rectangle(400,400,1,1));
+        assertEquals("Intersection pairs:\n", emptyList.intersections());
+        emptyList.insert(intersect0);
+        assertEquals("Intersection pairs:\n", emptyList.intersections());
+        emptyList.insert(intersect1);
+        assertEquals("Intersection pairs:\n"
+            + "", emptyList.intersections());
+        emptyList.insert(intersect2);
+        emptyList.insert(intersect3);
+        emptyList.insert(intersect4);
+        emptyList.insert(intersect5);
+        emptyList.insert(notSecting0);
+        
+        assertEquals("Intersection pairs:\n"
+            + "(a, 5, 5, 4, 4 | b, 4, 4, 4, 4)\n"
+            + "(b, 4, 4, 4, 4 | a, 5, 5, 4, 4)\n"
+            + "", emptyList.intersections());
     }
 
 }

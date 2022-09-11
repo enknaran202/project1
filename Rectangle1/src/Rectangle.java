@@ -41,6 +41,7 @@ public class Rectangle {
      * @return Returns true if the the same and false otherwise
      * 
      */
+    @Override
     public boolean equals(Object other) {
         if (this == other) {
             return true;
@@ -65,7 +66,7 @@ public class Rectangle {
     /**
      * Description: Checks if rectangle passed in is intersecting this rectangle
      * 
-     * @return Returns true if the the same and false otherwise
+     * @return Returns true if intersecting and false otherwise
      * 
      */
     public boolean isIntersecting(Rectangle input) {
@@ -77,6 +78,22 @@ public class Rectangle {
         return false;
     }
 
+    
+    /**
+     * Description: Checks of coordinates are within bounds
+     * 
+     * @return true if it is within bounds else false if otherwise
+     * 
+     */
+    private boolean withinBounds(int aCoord, int aDim, int bCoord, int bDim) {
+        if (bCoord >= aCoord && bCoord < aCoord + aDim) {
+            return true;
+        }
+        if (aCoord >= bCoord && aCoord < bCoord + bDim) {
+            return true;
+        }
+        return false;
+    }
 
     /**
      * Description: Returns the x coordinate
@@ -178,20 +195,4 @@ public class Rectangle {
 
     }
 
-
-    /**
-     * Description: Checks of coordinates are within bounds
-     * 
-     * @return true if it is within bounds else false if otherwise
-     * 
-     */
-    private boolean withinBounds(int aCoord, int aDim, int bCoord, int bDim) {
-        if (bCoord >= aCoord && bCoord < aCoord + aDim) {
-            return true;
-        }
-        if (aCoord >= bCoord && aCoord < bCoord + bDim) {
-            return true;
-        }
-        return false;
-    }
 }
