@@ -4,10 +4,14 @@ import java.util.Random;
 import student.TestableRandom;
 
 /**
- * @author Deep Datta, (name here)
- *         Note: make sure to write comments and concerns later
+ * Straightforward test for SkipList
+ * 
+ * @author Deep Datta (PID: ddeep21), Enk Naran (PID: enk)
+ * @version 9/11/2022
  * @param <K>
+ *            Key
  * @param <E>
+ *            Element
  */
 public class SkipListTest<K extends Comparable<K>, E> extends TestCase
 {
@@ -21,27 +25,31 @@ public class SkipListTest<K extends Comparable<K>, E> extends TestCase
     private KVPair<String, Rectangle> pair3;
     private KVPair<String, Rectangle> pair4;
 
-    KVPair<String, Rectangle> intersect0;
-    KVPair<String, Rectangle> intersect5;
-    KVPair<String, Rectangle> intersect1;
-    KVPair<String, Rectangle> intersect2;
-    KVPair<String, Rectangle> intersect3;
-    KVPair<String, Rectangle> intersect4;
+    private KVPair<String, Rectangle> intersect0;
+    private KVPair<String, Rectangle> intersect5;
+    private KVPair<String, Rectangle> intersect1;
+    private KVPair<String, Rectangle> intersect2;
+    private KVPair<String, Rectangle> intersect3;
+    private KVPair<String, Rectangle> intersect4;
 
     private Rectangle rec1;
     private Rectangle rec2;
     private Rectangle rec3;
     private Rectangle rec4;
     private Rectangle rec5;
-    KVPair<String, Rectangle> notInList;
+    private KVPair<String, Rectangle> notInList;
 
+    /**
+     * Set up test
+     * 
+     */
     public void setUp()
     {
 
         list = new SkipList<String, Rectangle>();
         listRNDM = new SkipList<String, Rectangle>();
         listRect = new SkipList<String, Rectangle>();
-        
+
         rec1 = new Rectangle(1, 0, 0, 0);
         rec2 = new Rectangle(2, 0, 0, 0);
         rec3 = new Rectangle(3, 0, 0, 0);
@@ -90,6 +98,10 @@ public class SkipListTest<K extends Comparable<K>, E> extends TestCase
     }
 
 
+    /**
+     * Test random level
+     * 
+     */
     public void testRandomLevel()
     {
         TestableRandom.setNextBooleans(true, true, true, false);
@@ -97,6 +109,10 @@ public class SkipListTest<K extends Comparable<K>, E> extends TestCase
     }
 
 
+    /**
+     * Test Insert
+     * 
+     */
     public void testInsert()
     {
         TestableRandom.setNextBooleans(true, false);
@@ -107,6 +123,10 @@ public class SkipListTest<K extends Comparable<K>, E> extends TestCase
     }
 
 
+    /**
+     * Test search
+     * 
+     */
     public void testSearch()
     {
         list.insert(pair1);
@@ -117,26 +137,34 @@ public class SkipListTest<K extends Comparable<K>, E> extends TestCase
     }
 
 
+    /**
+     * Test dump
+     * 
+     */
     public void testDump()
     {
         listRect = new SkipList<String, Rectangle>();
 
         TestableRandom.setNextBooleans(true, false);
+
         listRect.insert(pair1);
         TestableRandom.setNextBooleans(true, false);
         listRect.insert(pair1);
         TestableRandom.setNextBooleans(true, true, true, false);
         listRect.insert(pair2);
 
-        assertEquals("SkipList dump:Node has depth 4, Value (null)\n"
-            + "Node has a depth 2, Value (1, 1, 0, 0, 0)\n"
-            + "Node has a depth 2, Value (1, 1, 0, 0, 0)\n"
-            + "Node has a depth 4, Value (2, 2, 0, 0, 0)\n"
+        assertEquals("SkipList dump:\n" + "Node has depth 4, Value (null)\n"
+            + "Node has depth 2, Value (1, 1, 0, 0, 0)\n"
+            + "Node has depth 2, Value (1, 1, 0, 0, 0)\n"
+            + "Node has depth 4, Value (2, 2, 0, 0, 0)\n"
             + "SkipList size is: 3", listRect.dump());
     }
 
 
-// ISSUE WHEN REMOVING LAST NODE
+    /**
+     * Test RBK
+     * 
+     */
     public void testRemoveByKey()
     {
 
@@ -151,8 +179,8 @@ public class SkipListTest<K extends Comparable<K>, E> extends TestCase
         assertEquals(null, list.removeByKey(pair3.theKey));
         assertEquals(null, list.removeByKey(notInList.theKey));
         assertEquals(null, list.removeByKey(pair4.theKey));
-        assertEquals("SkipList dump:Node has depth 2, Value (null)\n"
-            + "Node has a depth 2, Value (1, 1, 0, 0, 0)\n"
+        assertEquals("SkipList dump:\n" + "Node has depth 2, Value (null)\n"
+            + "Node has depth 2, Value (1, 1, 0, 0, 0)\n"
             + "SkipList size is: 1", list.dump());
 
         assertEquals(pair4.toString(), listRNDM.removeByKey(pair4.theKey)
@@ -168,23 +196,27 @@ public class SkipListTest<K extends Comparable<K>, E> extends TestCase
     }
 
 
+    /**
+     * test RBV
+     * 
+     */
     public void testRemoveByValue()
     {
         // tests removing the last, deepest node
         // assertEquals("", list.dump());
         assertEquals(pair4.theVal.toString(), list.removeByValue(
             pair4.theVal).theVal.toString());
-        assertEquals("SkipList dump:Node has depth 3, Value (null)\n"
-            + "Node has a depth 2, Value (1, 1, 0, 0, 0)\n"
-            + "Node has a depth 1, Value (2, 2, 0, 0, 0)\n"
-            + "Node has a depth 3, Value (3, 3, 0, 0, 0)\n"
+        assertEquals("SkipList dump:\n" + "Node has depth 3, Value (null)\n"
+            + "Node has depth 2, Value (1, 1, 0, 0, 0)\n"
+            + "Node has depth 1, Value (2, 2, 0, 0, 0)\n"
+            + "Node has depth 3, Value (3, 3, 0, 0, 0)\n"
             + "SkipList size is: 3", list.dump());
         assertEquals(null, list.removeByValue(notInList.theVal));
         assertEquals(pair2.theVal.toString(), list.removeByValue(
             pair2.theVal).theVal.toString());
-        assertEquals("SkipList dump:Node has depth 3, Value (null)\n"
-            + "Node has a depth 2, Value (1, 1, 0, 0, 0)\n"
-            + "Node has a depth 3, Value (3, 3, 0, 0, 0)\n"
+        assertEquals("SkipList dump:\n" + "Node has depth 3, Value (null)\n"
+            + "Node has depth 2, Value (1, 1, 0, 0, 0)\n"
+            + "Node has depth 3, Value (3, 3, 0, 0, 0)\n"
             + "SkipList size is: 2", list.dump());
 
         assertEquals(pair3.theVal.toString(), list.removeByValue(
@@ -209,6 +241,9 @@ public class SkipListTest<K extends Comparable<K>, E> extends TestCase
     }
 
 
+    /**
+     * Test Region Search
+     */
     public void testRegionSearch()
     {
         KVPair<String, Rectangle> notSecting0 = new KVPair<String, Rectangle>(
@@ -220,45 +255,41 @@ public class SkipListTest<K extends Comparable<K>, E> extends TestCase
         listRect.insert(intersect4);
         listRect.insert(intersect5);
         listRect.insert(notSecting0);
-        
-        assertEquals("\n"
-            + "(400, 400, 1, 1)\n"
-            + "(5, 5, 4, 4)\n"
-            + "(4, 4, 4, 4)\n"
-            + "(5, 1, 1, 1)\n"
-            + "(1, 5, 1, 1)\n"
-            + "(11, 1, 1, 1)\n"
-            + "(1, 11, 1, 1)", listRect.regionSearch(new Rectangle (0,0,2000,2000)));
-        
-        assertEquals("\n"
-            + "(5, 5, 4, 4)\n"
-            + "(4, 4, 4, 4)\n"
-            + "(5, 1, 1, 1)\n"
-            + "(1, 5, 1, 1)\n"
-            + "(11, 1, 1, 1)\n"
-            + "(1, 11, 1, 1)", listRect.regionSearch(new Rectangle(0,0,300,300)));
+
+        assertEquals("\n" + "(400, 400, 1, 1)\n" + "(5, 5, 4, 4)\n"
+            + "(4, 4, 4, 4)\n" + "(5, 1, 1, 1)\n" + "(1, 5, 1, 1)\n"
+            + "(11, 1, 1, 1)\n" + "(1, 11, 1, 1)", listRect.regionSearch(
+                new Rectangle(0, 0, 2000, 2000)));
+
+        assertEquals("\n" + "(5, 5, 4, 4)\n" + "(4, 4, 4, 4)\n"
+            + "(5, 1, 1, 1)\n" + "(1, 5, 1, 1)\n" + "(11, 1, 1, 1)\n"
+            + "(1, 11, 1, 1)", listRect.regionSearch(new Rectangle(0, 0, 300,
+                300)));
     }
 
 
+    /**
+     * test Intersections
+     */
     public void testIntersections()
     {
-        
+
         KVPair<String, Rectangle> notSecting0 = new KVPair<String, Rectangle>(
             "a", new Rectangle(400, 400, 1, 1));
-        assertEquals("Intersection pairs:\n", listRect.intersections());
+        assertEquals("Intersections pairs:", listRect.intersections());
         listRect.insert(intersect0);
-        assertEquals("Intersection pairs:\n", listRect.intersections());
+        assertEquals("Intersections pairs:", listRect.intersections());
         listRect.insert(intersect1);
-        assertEquals("Intersection pairs:\n" + "", listRect.intersections());
+        assertEquals("Intersections pairs:" + "", listRect.intersections());
         listRect.insert(intersect2);
         listRect.insert(intersect3);
         listRect.insert(intersect4);
         listRect.insert(intersect5);
         listRect.insert(notSecting0);
 
-        assertEquals("Intersection pairs:\n"
-            + "(a, 5, 5, 4, 4 | b, 4, 4, 4, 4)\n"
-            + "(b, 4, 4, 4, 4 | a, 5, 5, 4, 4)\n" + "", listRect
+        assertEquals("Intersections pairs:"
+            + "\n(a, 5, 5, 4, 4 | b, 4, 4, 4, 4)"
+            + "\n(b, 4, 4, 4, 4 | a, 5, 5, 4, 4)" + "", listRect
                 .intersections());
     }
 

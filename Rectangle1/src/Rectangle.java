@@ -5,9 +5,10 @@
  * Description: Object class that creates a Rectangle object when evoked
  * 
  * @author Deep Datta (PID: ddeep21), Enk Naran (PID: enk)
- * 
+ * @version 9/11/2022
  */
-public class Rectangle {
+public class Rectangle
+{
 
     private int x;
     private int y;
@@ -27,7 +28,8 @@ public class Rectangle {
      * @param height
      *            Takes in the specified height for rectangle size
      */
-    public Rectangle(int x, int y, int width, int height) {
+    public Rectangle(int x, int y, int width, int height)
+    {
         this.setX(x);
         this.setY(y);
         this.setWidth(width);
@@ -38,26 +40,31 @@ public class Rectangle {
     /**
      * Description: Checks if object passed in is equal to this Rectangle object
      * 
+     * @param other
+     *            The other rectangle being compared to this rectangle
      * @return Returns true if the the same and false otherwise
      * 
      */
     @Override
-    public boolean equals(Object other) {
-        if (this == other) {
+    public boolean equals(Object other)
+    {
+        if (this == other)
+        {
             return true;
         }
 
-        if (other == null) {
+        if (other == null)
+        {
             return false;
         }
-        else if (this.getClass().equals(other.getClass())) {
+        else if (this.getClass().equals(other.getClass()))
+        {
             Rectangle otherRect = (Rectangle)other;
-            if (this.getX() != otherRect.getX() || this.getY() != otherRect
+
+            return !(this.getX() != otherRect.getX() || this.getY() != otherRect
                 .getY() || this.getWidth() != otherRect.getWidth() || this
-                    .getHeight() != otherRect.getHeight()) {
-                return false;
-            }
-            return true;
+                    .getHeight() != otherRect.getHeight());
+
         }
         return false;
     }
@@ -66,34 +73,49 @@ public class Rectangle {
     /**
      * Description: Checks if rectangle passed in is intersecting this rectangle
      * 
+     * @param input
+     *            The rectangle being checked for intersection
      * @return Returns true if intersecting and false otherwise
      * 
      */
-    public boolean isIntersecting(Rectangle input) {
-        if ((withinBounds(this.x, this.width, input.x, input.width)
-            && (withinBounds(this.y, this.height, input.y, input.height)))) {
-            return true;
-        }
-
-        return false;
+    public boolean isIntersecting(Rectangle input)
+    {
+        return (withinBounds(this.x, this.width, input.x, input.width)
+            && withinBounds(this.y, this.height, input.y, input.height));
     }
 
-    
+
     /**
      * Description: Checks of coordinates are within bounds
+     * 
+     * @param aCoord
+     *            first coordinate
+     * @param aDim
+     *            first dimension
+     * @param bCoord
+     *            second coordinate
+     * @param bDim
+     *            second dimension
      * 
      * @return true if it is within bounds else false if otherwise
      * 
      */
-    private boolean withinBounds(int aCoord, int aDim, int bCoord, int bDim) {
-        if (bCoord >= aCoord && bCoord < aCoord + aDim) {
-            return true;
+    private boolean withinBounds(int aCoord, int aDim, int bCoord, int bDim)
+    {
+        boolean isTrue = false;
+        if (bCoord >= aCoord && bCoord < aCoord + aDim)
+        {
+            isTrue = true;
+            return isTrue;
         }
-        if (aCoord >= bCoord && aCoord < bCoord + bDim) {
-            return true;
+        if (aCoord >= bCoord && aCoord < bCoord + bDim)
+        {
+            isTrue = true;
+            return isTrue;
         }
-        return false;
+        return isTrue;
     }
+
 
     /**
      * Description: Returns the x coordinate
@@ -101,7 +123,8 @@ public class Rectangle {
      * @return the x
      * 
      */
-    public int getX() {
+    public int getX()
+    {
         return x;
     }
 
@@ -112,7 +135,8 @@ public class Rectangle {
      * @param x
      *            the x to set
      */
-    public void setX(int x) {
+    public void setX(int x)
+    {
         this.x = x;
     }
 
@@ -123,7 +147,8 @@ public class Rectangle {
      * @return the y
      * 
      */
-    public int getY() {
+    public int getY()
+    {
         return y;
     }
 
@@ -134,7 +159,8 @@ public class Rectangle {
      * @param y
      *            the y to set
      */
-    public void setY(int y) {
+    public void setY(int y)
+    {
         this.y = y;
     }
 
@@ -145,7 +171,8 @@ public class Rectangle {
      * @return the width
      * 
      */
-    public int getWidth() {
+    public int getWidth()
+    {
         return width;
     }
 
@@ -156,7 +183,8 @@ public class Rectangle {
      * @param width
      *            the width to set
      */
-    public void setWidth(int width) {
+    public void setWidth(int width)
+    {
         this.width = width;
     }
 
@@ -167,7 +195,8 @@ public class Rectangle {
      * @return the height
      * 
      */
-    public int getHeight() {
+    public int getHeight()
+    {
         return height;
     }
 
@@ -178,7 +207,8 @@ public class Rectangle {
      * @param height
      *            the height to set
      */
-    public void setHeight(int height) {
+    public void setHeight(int height)
+    {
         this.height = height;
     }
 
@@ -189,7 +219,8 @@ public class Rectangle {
      * @return string of rectangle
      * 
      */
-    public String toString() {
+    public String toString()
+    {
 
         return x + ", " + y + ", " + width + ", " + height;
 

@@ -2,6 +2,17 @@ import java.lang.reflect.Array;
 import java.util.Random;
 import student.TestableRandom;
 
+/**
+ * Basic SkipList implementation. As generic as possible
+ * 
+ * @author Deep Datta (PID: ddeep21), Enk Naran (PID: enk)
+ * @version 9/11/2022
+ * 
+ * @param <K>
+ *            Key
+ * @param <E>
+ *            Element
+ */
 public class SkipList<K extends Comparable<K>, E>
 {
     private Random rnd = new TestableRandom(); // Random number generator
@@ -11,6 +22,10 @@ public class SkipList<K extends Comparable<K>, E>
     // TestableRandom allows tests to be consistent instead of random. See
     // setNextBooleans()
 
+    /**
+     * SkipList constructor
+     * 
+     */
     public SkipList()
     {
         level = 0;
@@ -19,7 +34,12 @@ public class SkipList<K extends Comparable<K>, E>
     }
 
 
-    /** Pick a level using a geometric distribution */
+    /**
+     * Pick a level using a geometric distribution
+     * 
+     * @return int
+     *         the number of levels for the new node's forward array length
+     */
     public int randomLevel()
     {
         int lev;
@@ -31,7 +51,15 @@ public class SkipList<K extends Comparable<K>, E>
     }
 
 
-    /** Insert a KVPair into the skiplist */
+    /**
+     * Insert a KVPair into the skiplist
+     * 
+     * @param it
+     *            The KVPair being inserted
+     * @return boolean
+     *         If the insert was a success or failure
+     * 
+     */
     public boolean insert(KVPair<K, E> it)
     {
         int newLevel = randomLevel();
@@ -56,7 +84,7 @@ public class SkipList<K extends Comparable<K>, E>
             }
             update[i] = x; // Track end at level i
         }
-        x = new SkipNode<K, E>(it.theKey, it.theVal, newLevel);
+        x = new SkipNode<K, E>(it.key(), it.theVal, newLevel);
 
         for (int i = 0; i <= newLevel; i++)
         { // Splice into list
@@ -68,6 +96,15 @@ public class SkipList<K extends Comparable<K>, E>
     }
 
 
+    /**
+     * Finding a node by a given key
+     * 
+     * @param key
+     *            the key used to find the node
+     * @return String
+     *         either the toString of the found node or null when not found
+     * 
+     */
     public String search(K key)
     {
         String toReturn = "";
@@ -100,6 +137,13 @@ public class SkipList<K extends Comparable<K>, E>
     }
 
 
+    /**
+     * A dump of all contents of the list
+     * 
+     * @return string
+     *         the resulting dump
+     * 
+     */
     public String dump()
     {
         int depth = 0;
@@ -122,6 +166,16 @@ public class SkipList<K extends Comparable<K>, E>
     }
 
 
+    /**
+     * Removing a node containing the given key
+     * 
+     * @param key
+     *            the key to look for and remove
+     * 
+     * @return KVPair
+     *         the KVPair from the removed node
+     * 
+     */
     // ISSUE: WHere do i put updateHead?
     public KVPair<K, E> removeByKey(K key)
     {
@@ -165,7 +219,7 @@ public class SkipList<K extends Comparable<K>, E>
                 j++;
                 nonNulLevels++;
             }
-            adjustHead(nonNulLevels -1);
+            adjustHead(nonNulLevels - 1);
             size--;
             return x.pair();
         }
@@ -173,6 +227,15 @@ public class SkipList<K extends Comparable<K>, E>
     }
 
 
+    /**
+     * Remove by given value
+     * 
+     * @param value
+     *            value to remove
+     * @return KVPair
+     *         kvpair of removed node
+     * 
+     */
     public KVPair<K, E> removeByValue(E value)
     {
         SkipNode<K, E> x = head;
@@ -189,19 +252,20 @@ public class SkipList<K extends Comparable<K>, E>
         // possibly the correct node
         toRemove = toRemove.getForward()[0];
         // if we found the node we want to remove
-        //ISSUE 1/4 covered
+        // ISSUE 1/4 covered
         if (toRemove != null && value.equals(toRemove.pair().theVal))
         {
             found = true;
             for (int i = 0; i <= toRemove.getForward().length - 1; i++)
             {
                 x = head;
-                //ISSUE 1/4 missed
-                while (x.getForward()[i] != null && x.getForward()[i] != toRemove)
+                // ISSUE 1/4 missed
+                while (x.getForward()[i] != null && x
+                    .getForward()[i] != toRemove)
                 {
                     x = x.getForward()[i];
                 }
-                //ISSUE 2/4 missed
+                // ISSUE 2/4 missed
                 if (x.getForward()[i] != null && x.getForward()[i] == toRemove)
                 {
                     x.getForward()[i] = toRemove.getForward()[i];
@@ -210,20 +274,30 @@ public class SkipList<K extends Comparable<K>, E>
         }
         if (found == true)
         {
-        int j = 0;
-        int nonNulLevels = 0;
-        while (j < head.getForward().length && head.getForward()[j] != null)
-        {
-            j++;
-            nonNulLevels++;
-        }
-        adjustHead(nonNulLevels - 1);
-        size--;
-        return toRemove.pair();
+            int j = 0;
+            int nonNulLevels = 0;
+            while (j < head.getForward().length && head.getForward()[j] != null)
+            {
+                j++;
+                nonNulLevels++;
+            }
+            adjustHead(nonNulLevels - 1);
+            size--;
+            return toRemove.pair();
         }
         return null;
     }
 
+
+    /**
+     * Finding all rectangles that intersect with given region
+     * 
+     * @param rect
+     *            region to search
+     * @return String
+     *         a string of all rectangles intersecting given region
+     * 
+     */
 
     public String regionSearch(Rectangle rect)
     {
@@ -235,7 +309,8 @@ public class SkipList<K extends Comparable<K>, E>
             if (((Rectangle)cur.getForward()[0].pair().theVal).isIntersecting(
                 rect))
             {
-                saved += "\n(" + cur.getForward()[0].pair().theVal.toString() + ")";
+                saved += "\n(" + cur.getForward()[0].pair().theVal.toString()
+                    + ")";
             }
             cur = cur.getForward()[0];
         }
@@ -243,11 +318,20 @@ public class SkipList<K extends Comparable<K>, E>
     }
 
 
+    /**
+     * Finding all rectangles that intersect
+     * 
+     * 
+     * @return String
+     *         a string of all rectangles intersecting
+     * 
+     */
     public String intersections()
     {
         String toReturn = "Intersections pairs:";
         @SuppressWarnings("unchecked")
-        SkipNode<String, Rectangle> pointerA = (SkipNode<String, Rectangle>)this.head;
+        SkipNode<String, Rectangle> pointerA =
+            (SkipNode<String, Rectangle>)this.head;
         // if empty
         if (pointerA.getForward()[0] == null)
         {
@@ -259,15 +343,16 @@ public class SkipList<K extends Comparable<K>, E>
             pointerB = pointerA.getForward()[0];
             while (pointerB.getForward()[0] != null)
             {
-                if (pointerA.getForward()[0].pair().theVal.isIntersecting(pointerB.getForward()[0].pair().theVal))
+                if (pointerA.getForward()[0].pair().theVal.isIntersecting(
+                    pointerB.getForward()[0].pair().theVal))
                 {
                     // Ensure correct print outs
-                    toReturn += "(" + pointerA.getForward()[0].pair().toString()
-                        + " | " + pointerB.getForward()[0].pair().toString()
-                        + ")\n";
-                    toReturn += "(" + pointerB.getForward()[0].pair().toString()
-                        + " | " + pointerA.getForward()[0].pair().toString()
-                        + ")\n";
+                    toReturn += "\n(" + pointerA.getForward()[0].pair()
+                        .toString() + " | " + pointerB.getForward()[0].pair()
+                            .toString() + ")";
+                    toReturn += "\n(" + pointerB.getForward()[0].pair()
+                        .toString() + " | " + pointerA.getForward()[0].pair()
+                            .toString() + ")";
                 }
                 pointerB = pointerB.getForward()[0];
             }
@@ -277,6 +362,13 @@ public class SkipList<K extends Comparable<K>, E>
     }
 
 
+    /**
+     * Finding all rectangles that intersect with given region
+     * 
+     * @param newLevel
+     *            correct level for head
+     * 
+     */
     private void adjustHead(int newLevel)
     {
         SkipNode<K, E> temp = head;
@@ -285,7 +377,7 @@ public class SkipList<K extends Comparable<K>, E>
         {
             for (int i = 0; i <= level; i++)
                 head.getForward()[i] = temp.getForward()[i];
-                level = newLevel;
+            level = newLevel;
         }
         else
         {

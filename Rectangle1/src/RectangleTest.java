@@ -10,10 +10,11 @@ import student.TestCase;
  * Description: Test class for Rectangle object
  * 
  * @author Deep Datta (PID: ddeep21), Enk Naran (PID: enk)
- * 
+ * @version 9/11/2022
  */
 
-public class RectangleTest extends TestCase {
+public class RectangleTest extends TestCase
+{
 
     private Rectangle rect;
 
@@ -23,7 +24,8 @@ public class RectangleTest extends TestCase {
      * Description: Sets up test object to be used
      * 
      */
-    public void setUp() {
+    public void setUp()
+    {
 
         rect = new Rectangle(1, 1, 1, 1);
 
@@ -36,7 +38,8 @@ public class RectangleTest extends TestCase {
      * Description: Tests the equals method used in the Rectangle class
      * 
      */
-    public void testEquals() {
+    public void testEquals()
+    {
 
         assertTrue(rect.equals(rect));
         assertFalse(rect.equals(null));
@@ -83,7 +86,7 @@ public class RectangleTest extends TestCase {
      * Description: Tests the isIntersecting method used in the Rectangle class
      * 
      */
-    public void testIsIntesecting() 
+    public void testIsIntesecting()
     {
         Rectangle test = new Rectangle(5, 5, 5, 5);
         assertTrue(test.isIntersecting(new Rectangle(5, 5, 4, 4)));
@@ -104,9 +107,9 @@ public class RectangleTest extends TestCase {
         assertFalse(test4.isIntersecting(test));
         assertFalse(test5.isIntersecting(test));
         assertTrue(test6.isIntersecting(test));
-        //(a, 5, 5, 4, 4 | b, 400, 400, 1, 1)
-        test = new Rectangle(5,5,4,4);
-        assertFalse(test.isIntersecting(new Rectangle(400,400,1,1)));
+        // (a, 5, 5, 4, 4 | b, 400, 400, 1, 1)
+        test = new Rectangle(5, 5, 4, 4);
+        assertFalse(test.isIntersecting(new Rectangle(400, 400, 1, 1)));
     }
 
 
@@ -116,7 +119,8 @@ public class RectangleTest extends TestCase {
      * Description: Tests the getter getX method used in the Rectangle class
      * 
      */
-    public void testGetX() {
+    public void testGetX()
+    {
 
         assertEquals(1, rect.getX());
         assertNotSame(2, rect.getX());
@@ -130,7 +134,8 @@ public class RectangleTest extends TestCase {
      * Description: Tests the setter setX method used in the Rectangle class
      * 
      */
-    public void testSetX() {
+    public void testSetX()
+    {
 
         assertEquals(1, rect.getX());
         rect.setX(0);
@@ -146,7 +151,8 @@ public class RectangleTest extends TestCase {
      * Description: Tests the getter getY method used in the Rectangle class
      * 
      */
-    public void testGetY() {
+    public void testGetY()
+    {
 
         assertEquals(1, rect.getY());
         assertNotSame(2, rect.getY());
@@ -160,7 +166,8 @@ public class RectangleTest extends TestCase {
      * Description: Tests the setter setY method used in the Rectangle class
      * 
      */
-    public void testSetY() {
+    public void testSetY()
+    {
 
         assertEquals(1, rect.getY());
         rect.setY(0);
@@ -177,7 +184,8 @@ public class RectangleTest extends TestCase {
      * Description: Tests the getter getWidth method used in the Rectangle class
      * 
      */
-    public void testGetWidth() {
+    public void testGetWidth()
+    {
 
         assertEquals(1, rect.getWidth());
         assertNotSame(2, rect.getWidth());
@@ -191,7 +199,8 @@ public class RectangleTest extends TestCase {
      * Description: Tests the setter setWidth method used in the Rectangle class
      * 
      */
-    public void testSetWidth() {
+    public void testSetWidth()
+    {
 
         assertEquals(1, rect.getWidth());
         rect.setWidth(0);
@@ -210,7 +219,8 @@ public class RectangleTest extends TestCase {
      * class
      * 
      */
-    public void testGetHeight() {
+    public void testGetHeight()
+    {
 
         assertEquals(1, rect.getHeight());
         assertNotSame(2, rect.getHeight());
@@ -225,7 +235,8 @@ public class RectangleTest extends TestCase {
      * class
      * 
      */
-    public void testSetHeight() {
+    public void testSetHeight()
+    {
 
         assertEquals(1, rect.getHeight());
         rect.setHeight(0);
@@ -244,11 +255,12 @@ public class RectangleTest extends TestCase {
      * class
      * 
      */
-    public void testToString() {
+    public void testToString()
+    {
 
         assertEquals("1, 1, 1, 1", rect.toString());
-        Rectangle rect = new Rectangle(2, 2, 10, 10);
-        assertEquals("2, 2, 10, 10", rect.toString());
+        Rectangle recTest = new Rectangle(2, 2, 10, 10);
+        assertEquals("2, 2, 10, 10", recTest.toString());
 
     }
 

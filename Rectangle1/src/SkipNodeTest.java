@@ -11,11 +11,13 @@ import java.lang.reflect.Array;
  * Description: Test class for SkipNodeTest object
  * 
  * @author Deep Datta (PID: ddeep21), Enk Naran (PID: enk)
+ * @version 9/11/2022
  * 
  */
-public class SkipNodeTest extends TestCase {
+public class SkipNodeTest extends TestCase
+{
 
-    private SkipNode<String, String> skip;
+    private SkipNode<String, String> testNode;
 
     // ----------------------------------------------------------
     /**
@@ -23,9 +25,10 @@ public class SkipNodeTest extends TestCase {
      * Description: Sets up test objects to be used
      * 
      */
-    public void setUp() {
+    public void setUp()
+    {
 
-        skip = new SkipNode<String, String>("test", "test", 1);
+        testNode = new SkipNode<String, String>("test", "test", 1);
         KVPair<String, String> pair = new KVPair<String, String>("test",
             "test");
         @SuppressWarnings("unused")
@@ -41,9 +44,10 @@ public class SkipNodeTest extends TestCase {
      * Description: Tests the getter method to get the element from the SkipNode
      * 
      */
-    public void testGetElement() {
+    public void testGetElement()
+    {
 
-        assertEquals("test", skip.element());
+        assertEquals("test", testNode.element());
         SkipNode<String, String> skip = new SkipNode<String, String>("test",
             "hi", 1);
         assertEquals("hi", skip.element());
@@ -65,9 +69,10 @@ public class SkipNodeTest extends TestCase {
      * SkipNode
      * 
      */
-    public void testGetKey() {
+    public void testGetKey()
+    {
 
-        assertEquals("test", skip.key());
+        assertEquals("test", testNode.key());
         SkipNode<String, String> skip = new SkipNode<String, String>("hi",
             "test", 1);
         assertEquals("hi", skip.key());
@@ -89,9 +94,10 @@ public class SkipNodeTest extends TestCase {
      * SkipNode
      * 
      */
-    public void testGetPair() {
+    public void testGetPair()
+    {
 
-        assertEquals("test, test", skip.pair().toString());
+        assertEquals("test, test", testNode.pair().toString());
         SkipNode<String, String> skip = new SkipNode<String, String>("hi",
             "test", 1);
         assertEquals("hi, test", skip.pair().toString());
@@ -113,9 +119,10 @@ public class SkipNodeTest extends TestCase {
      * represented correctly
      * 
      */
-    public void testToString() {
+    public void testToString()
+    {
 
-        assertEquals("test, test", skip.toString());
+        assertEquals("test, test", testNode.toString());
         SkipNode<String, String> skip = new SkipNode<String, String>("hi",
             "test", 1);
         assertEquals("hi, test", skip.toString());
@@ -134,15 +141,17 @@ public class SkipNodeTest extends TestCase {
      * 
      */
     @SuppressWarnings("unchecked")
-    public void testGetForward() {
+    public void testGetForward()
+    {
 
-        skip.setForward(new SkipNode[5]);
-        for (int i = 0; i < 5; i++) {
+        testNode.setForward(new SkipNode[5]);
+        for (int i = 0; i < 5; i++)
+        {
 
-            skip.getForward()[i] = new SkipNode<String, String>("test", "test",
-                1);
-            assertEquals("test", skip.getForward()[i].key());
-            assertEquals("test", skip.getForward()[i].element());
+            testNode.getForward()[i] = new SkipNode<String, String>("test",
+                "test", 1);
+            assertEquals("test", testNode.getForward()[i].key());
+            assertEquals("test", testNode.getForward()[i].element());
 
         }
 
@@ -156,15 +165,17 @@ public class SkipNodeTest extends TestCase {
      * 
      */
     @SuppressWarnings("unchecked")
-    public void testSetForward() {
+    public void testSetForward()
+    {
 
-        skip.setForward(new SkipNode[5]);
-        for (int i = 0; i < 5; i++) {
+        testNode.setForward(new SkipNode[5]);
+        for (int i = 0; i < 5; i++)
+        {
 
-            skip.getForward()[i] = new SkipNode<String, String>("test", "test",
-                1);
-            assertEquals("test", skip.getForward()[i].key());
-            assertEquals("test", skip.getForward()[i].element());
+            testNode.getForward()[i] = new SkipNode<String, String>("test",
+                "test", 1);
+            assertEquals("test", testNode.getForward()[i].key());
+            assertEquals("test", testNode.getForward()[i].element());
 
         }
     }

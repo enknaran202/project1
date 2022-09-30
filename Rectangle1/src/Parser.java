@@ -1,12 +1,24 @@
 import java.io.File;
 import java.util.Scanner;
 
-public class Parser {
+/**
+ * Parser for text
+ * 
+ * @author Deep Datta (PID: ddeep21), Enk Naran (PID: enk)
+ * @version 9/11/2022
+ */
+public class Parser
+{
 
-    SkipList<String, Rectangle> list;
-    KVPair<String, Rectangle> pair;
+    private SkipList<String, Rectangle> list;
+    private KVPair<String, Rectangle> pair;
 
-    public Parser() {
+    /**
+     * parser
+     * 
+     */
+    public Parser()
+    {
 
         list = new SkipList<String, Rectangle>();
         pair = new KVPair<String, Rectangle>(null, null);
@@ -17,10 +29,16 @@ public class Parser {
     // Open DSA
     // !QUESTION!
     // Do we assume the inputs will be perfect?
-    public void parseFile(String filename) {
+    /**
+     * Where the file is parsed
+     * 
+     */
+    public void parseFile(String filename)
+    {
 
         Rectangle rect = new Rectangle(0, 0, 0, 0);
-        try {
+        try
+        {
             Scanner sc = new Scanner(new File(filename));
             String token = "";
             String name = "";
@@ -33,7 +51,8 @@ public class Parser {
             {
                 token = sc.next();
 
-                switch (token) {
+                switch (token)
+                {
 
                     case "insert":
                         name = sc.next();
@@ -53,10 +72,11 @@ public class Parser {
                             System.out.println("Rectangle rejected: (" + name
                                 + ", " + rect.toString() + ")");
                         }
-                        else {
+                        else
+                        {
 
                             list.insert(new KVPair<String, Rectangle>(name,
-                                rect));
+                                new Rectangle(x, y, width, height)));
                             System.out.println("Rectangle inserted: (" + name
                                 + ", " + rect.toString() + ")");
 
@@ -66,7 +86,8 @@ public class Parser {
                     case "remove":
                         name = sc.next(); // get name or first integer
                         // if removing by rectangle
-                        if (Character.isDigit(name.charAt(0))) {
+                        if (Character.isDigit(name.charAt(0)))
+                        {
 
                             rect.setX(Integer.parseInt(name)); // read each
                                                                // dimensions
@@ -76,12 +97,14 @@ public class Parser {
                             if (rect.getWidth() > 0 && rect.getHeight() > 0
                                 && rect.getX() + rect.getWidth() <= 1024 && rect
                                     .getY() + rect.getHeight() <= 1024 && rect
-                                        .getX() >= 0 && rect.getY() >= 0) {
+                                        .getX() >= 0 && rect.getY() >= 0)
+                            {
 
                                 pair = list.removeByValue(rect);
 
                             }
-                            else {
+                            else
+                            {
 
                                 System.out.println("Rectangle rejected: ("
                                     + rect.toString() + ")");
@@ -89,7 +112,8 @@ public class Parser {
 
                             }
 
-                            if (pair == null) {
+                            if (pair == null)
+                            {
                                 System.out.println("Rectangle not removed: ("
                                     + rect.toString() + ")");
                                 break;
@@ -102,14 +126,15 @@ public class Parser {
 
                         pair = list.removeByKey(name);
 
-                        if (pair == null) {
+                        if (pair == null)
+                        {
                             System.out.println("Rectangle not removed: (" + name
                                 + ")");
                             break;
                         }
 
-                        System.out.println("Rectangle removed: (" + list
-                            .removeByKey(name).toString() + ")");
+                        System.out.println("Rectangle removed: (" + pair
+                            .toString() + ")");
                         break;
 
                     case "regionsearch":
@@ -119,12 +144,14 @@ public class Parser {
                         rect.setWidth(sc.nextInt());
                         rect.setHeight(sc.nextInt());
 
-                        if (rect.getWidth() <= 0 || rect.getHeight() <= 0) {
+                        if (rect.getWidth() <= 0 || rect.getHeight() <= 0)
+                        {
                             System.out.println("Rectangle rejected: (" + rect
                                 .toString() + ")");
                             break;
                         }
-                        else {
+                        else
+                        {
                             System.out.println(
                                 "Rectangles intersecting region (" + rect
                                     .toString() + list.regionSearch(rect)
@@ -147,16 +174,18 @@ public class Parser {
 
                         name = sc.next();
                         String output = list.search(name);
-                        if (output == null) {
+                        if (output == null)
+                        {
 
                             System.out.println("Rectangle not found: (" + name
                                 + ")");
 
                         }
-                        else {
+                        else
+                        {
 
-                            System.out.println("Rectangle found:" + list.search(
-                                name));
+                            System.out.println("Rectangles found:" + list
+                                .search(name));
                         }
 
                         break;
@@ -171,7 +200,8 @@ public class Parser {
         }
         catch (
 
-        Exception e) {
+        Exception e)
+        {
             e.printStackTrace();
         }
     }

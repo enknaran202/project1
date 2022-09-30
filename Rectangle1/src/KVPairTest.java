@@ -10,10 +10,12 @@ import student.TestCase;
  * Description: Test class for KVPairTest object
  * 
  * @author Deep Datta (PID: ddeep21), Enk Naran (PID: enk)
+ * @version 9/11/2022
  * 
  */
 
-public class KVPairTest extends TestCase {
+public class KVPairTest extends TestCase
+{
 
     private KVPair<String, Rectangle> pair;
 
@@ -23,7 +25,8 @@ public class KVPairTest extends TestCase {
      * Description: Sets up test object to be used
      * 
      */
-    public void setUp() {
+    public void setUp()
+    {
 
         pair = new KVPair<String, Rectangle>("start", new Rectangle(1, 2, 5,
             5));
@@ -38,7 +41,8 @@ public class KVPairTest extends TestCase {
      * class
      * 
      */
-    public void testCompareToKVPair() {
+    public void testCompareToKVPair()
+    {
 
         assertEquals(0, pair.compareTo(pair));
         KVPair<String, Rectangle> pair2 = new KVPair<String, Rectangle>(
@@ -62,7 +66,8 @@ public class KVPairTest extends TestCase {
      * class
      * 
      */
-    public void testCompareToKey() {
+    public void testCompareToKey()
+    {
 
         assertEquals(0, pair.compareTo("start"));
         KVPair<String, Rectangle> pair2 = new KVPair<String, Rectangle>(
@@ -85,7 +90,8 @@ public class KVPairTest extends TestCase {
      * Description: Tests the getter key method used in the KVPair class
      * 
      */
-    public void testKey() {
+    public void testKey()
+    {
 
         assertEquals("start", pair.key());
         KVPair<String, Rectangle> pair2 = new KVPair<String, Rectangle>(
@@ -107,7 +113,8 @@ public class KVPairTest extends TestCase {
      * Description: Tests the getter value method used in the KVPair class
      * 
      */
-    public void testValue() {
+    public void testValue()
+    {
 
         Rectangle same = pair.value();
         assertEquals(same, pair.value());
@@ -129,7 +136,8 @@ public class KVPairTest extends TestCase {
      * class
      * 
      */
-    public void testToString() {
+    public void testToString()
+    {
 
         assertEquals("start, 1, 2, 5, 5", pair.toString());
         KVPair<String, Rectangle> pair2 = new KVPair<String, Rectangle>(

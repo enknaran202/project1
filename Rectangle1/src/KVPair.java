@@ -5,10 +5,12 @@
  * Description: Object class that creates a KVPair object when evoked
  * 
  * @author Deep Datta (PID: ddeep21), Enk Naran (PID: enk)
- * 
+ * @param K
+ * @param E
  */
 public class KVPair<K extends Comparable<K>, E>
-    implements Comparable<KVPair<K, E>> {
+    implements Comparable<KVPair<K, E>>
+{
     K theKey;
     E theVal;
 
@@ -22,7 +24,8 @@ public class KVPair<K extends Comparable<K>, E>
      *            Takes in a generic value of type generic E
      * 
      */
-    KVPair(K k, E v) {
+    public KVPair(K k, E v)
+    {
         theKey = k;
         theVal = v;
     }
@@ -33,9 +36,12 @@ public class KVPair<K extends Comparable<K>, E>
      * 
      * @return Returns 1 if first is greater, -1 if the second is greater, and 0
      *         if it is the same
+     * @param K
+     * @param E
      * 
      */
-    public int compareTo(KVPair<K, E> it) {
+    public int compareTo(KVPair<K, E> it)
+    {
         return theKey.compareTo(it.key());
     }
 
@@ -46,8 +52,10 @@ public class KVPair<K extends Comparable<K>, E>
      * @return Returns 1 if first is greater, -1 if the second is greater, and 0
      *         if it is the same
      * 
+     * @param K
      */
-    public int compareTo(K it) {
+    public int compareTo(K it)
+    {
         return theKey.compareTo(it);
     }
 
@@ -58,7 +66,8 @@ public class KVPair<K extends Comparable<K>, E>
      * @return Returns the generic key
      * 
      */
-    public K key() {
+    public K key()
+    {
         return theKey;
     }
 
@@ -69,7 +78,8 @@ public class KVPair<K extends Comparable<K>, E>
      * @return Returns the generic value
      * 
      */
-    public E value() {
+    public E value()
+    {
         return theVal;
     }
 
@@ -80,7 +90,8 @@ public class KVPair<K extends Comparable<K>, E>
      * @return string of the KVPair object and displayed information
      * 
      */
-    public String toString() {
+    public String toString()
+    {
         return theKey.toString() + ", " + theVal.toString();
     }
 }

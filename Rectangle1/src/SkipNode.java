@@ -4,9 +4,11 @@
  * Description: Object class that creates a SkipNode object when evoked
  * 
  * @author Deep Datta (PID: ddeep21), Enk Naran (PID: enk)
+ * @version 9/11/2022
  * 
  */
-public class SkipNode<K extends Comparable<K>, E> {
+public class SkipNode<K extends Comparable<K>, E>
+{
 
     private KVPair<K, E> rec;
     private SkipNode<K, E>[] forward;
@@ -17,7 +19,8 @@ public class SkipNode<K extends Comparable<K>, E> {
      * @return element data
      * 
      */
-    public E element() {
+    public E element()
+    {
 
         return rec.value();
 
@@ -30,7 +33,8 @@ public class SkipNode<K extends Comparable<K>, E> {
      * @return the key
      * 
      */
-    public K key() {
+    public K key()
+    {
 
         return rec.key();
 
@@ -43,7 +47,8 @@ public class SkipNode<K extends Comparable<K>, E> {
      * @return the KVPair object
      * 
      */
-    public KVPair<K, E> pair() {
+    public KVPair<K, E> pair()
+    {
 
         return rec;
 
@@ -66,13 +71,15 @@ public class SkipNode<K extends Comparable<K>, E> {
      * 
      */
     @SuppressWarnings("unchecked")
-    public SkipNode(K key, E elem, int level) {
+    public SkipNode(K key, E elem, int level)
+    {
 
         rec = new KVPair<K, E>(key, elem);
         setForward(new SkipNode[level + 1]); // can instantiate differently, not
                                              // sure if it causes errors
 
-        for (int i = 0; i < level; i++) {
+        for (int i = 0; i < level; i++)
+        {
 
             getForward()[i] = null;
 
@@ -86,7 +93,8 @@ public class SkipNode<K extends Comparable<K>, E> {
      * @return string of the KVPair object and displayed record information
      * 
      */
-    public String toString() {
+    public String toString()
+    {
         return rec.toString();
     }
 
@@ -97,7 +105,8 @@ public class SkipNode<K extends Comparable<K>, E> {
      * @return the SkipNode array to move forward
      * 
      */
-    public SkipNode<K, E>[] getForward() {
+    public SkipNode<K, E>[] getForward()
+    {
         return forward;
     }
 
@@ -106,7 +115,8 @@ public class SkipNode<K extends Comparable<K>, E> {
      * Description: Sets the SkipNode array
      * 
      */
-    public void setForward(SkipNode<K, E>[] forward) {
+    public void setForward(SkipNode<K, E>[] forward)
+    {
         this.forward = forward;
     }
 }
